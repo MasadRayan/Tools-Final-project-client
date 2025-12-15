@@ -3,9 +3,9 @@ import React from 'react';
 const HomePage = () => {
     return (
         <div>
-            <h1>This is Home</h1>
+            <h1 className='text-primary'>This is Home</h1>
         </div>
     );
 };
 
-export default HomePage;<h1>This is Home</h1>
+export default HomePage;
