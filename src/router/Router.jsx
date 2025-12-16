@@ -11,6 +11,12 @@ export const router = createBrowserRouter([
                 index: true,
                 Component: HomePage,
             },
+            {
+                path: '/about'
+            },
+            {
+                path: '/contact'
+            }
         ]
     }
 ])
