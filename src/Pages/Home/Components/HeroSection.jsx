@@ -55,7 +55,7 @@ const HeroSection = () => {
                 navigation
                 autoplay={{ delay: 5000, disableOnInteraction: false }}
                 loop
-                className="h-125 md:h-150 lg:h-150"
+                className="h-125 md:h-150 lg:h-180"
             >
                 {heroSlides.map((slide) => (
                     <SwiperSlide key={slide.id}>
