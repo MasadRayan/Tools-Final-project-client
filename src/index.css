@@ -1,3 +1,7 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+
 @import "tailwindcss";
 @plugin "daisyui";
 @plugin "daisyui/theme" {
@@ -10,8 +14,6 @@
     --color-accent: #706f6f;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-
 .lato-regular {
   font-family: "Lato", sans-serif;
   font-weight: 400;
@@ -20,7 +22,7 @@
 
 
 body{
-  font-family: "Lato", ;
+  font-family: "Lato";
   font-weight: 400;
   font-style: normal;
 }
