@@ -30,8 +30,8 @@ const brands = [
 
 const BrandMarquee = () => {
   return (
-    <section className="py-20 bg-base-100 border-y border-secondary/20 container mx-auto">
-      <div className="container-buynest mb-8">
+    <section className="py-20 bg-base-100 border-y border-secondary ">
+      <div className="container mx-auto mb-8">
         <Fade direction="up" triggerOnce>
           <div className="text-center">
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">
@@ -50,6 +50,7 @@ const BrandMarquee = () => {
         gradientWidth={100}
         speed={40}
         pauseOnHover
+        className="container mx-auto"
       >
         {[...brands, ...brands].map((brand, index) => (
           <div
