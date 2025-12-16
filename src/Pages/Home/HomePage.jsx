@@ -6,11 +6,13 @@ import StatsSection from './Components/StatsSection';
 import BrandMarquee from './Components/BrandMarquee';
 import FeaturesSection from './Components/FeaturesSection';
 import { ScrollRestoration } from 'react-router';
+import CategoriesSection from './Components/CategoriesSection';
 
 const HomePage = () => {
     return (
         <div>
             <HeroSection></HeroSection>
+            <CategoriesSection></CategoriesSection>
             <FeaturesSection></FeaturesSection>
             <BrandMarquee></BrandMarquee>
             <StatsSection></StatsSection>
