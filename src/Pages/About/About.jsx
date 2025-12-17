@@ -14,7 +14,7 @@ import {
     FiCheckCircle,
 } from "react-icons/fi";
 import { FaFacebookF } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, ScrollRestoration } from "react-router";
 
 const About = () => {
     const stats = [
@@ -413,7 +413,7 @@ const About = () => {
                     </div>
                 </Fade>
             </section>
-
+            <ScrollRestoration></ScrollRestoration>
         </div>
     );
 };

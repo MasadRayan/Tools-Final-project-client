@@ -21,6 +21,7 @@ import {
     FaLinkedinIn,
 } from "react-icons/fa";
 import emailjs from '@emailjs/browser';
+import { ScrollRestoration } from "react-router";
 
 
 /* Contact info */
@@ -392,7 +393,7 @@ const Contact = () => {
                     </Fade>
                 </div>
             </section>
-
+            <ScrollRestoration></ScrollRestoration>
         </div>
     );
 };
