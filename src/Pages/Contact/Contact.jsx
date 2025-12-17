@@ -106,7 +106,7 @@ const Contact = () => {
                 <div className="container mx-auto grid md:grid-cols-4 gap-6">
                     {contactInfo.map((info, i) => (
                         <Zoom key={i} triggerOnce>
-                            <div className="bg-white p-6 min-h-48 rounded-2xl shadow border border-border">
+                            <div className="bg-white p-6 min-h-50 rounded-2xl shadow border border-border">
                                 <div className={`w-14 h-14 ${info.color} rounded-xl flex items-center justify-center mb-4`}>
                                     <info.icon size={22} />
                                 </div>
