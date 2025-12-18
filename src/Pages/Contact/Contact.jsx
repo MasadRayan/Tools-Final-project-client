@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
@@ -53,6 +53,10 @@ const contactInfo = [
 ];
 
 const Contact = () => {
+    useEffect(() => {
+        document.title = "Contact";
+    },[])
+
     const formRef = useRef();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const {

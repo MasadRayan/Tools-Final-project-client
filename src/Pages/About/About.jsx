@@ -15,8 +15,12 @@ import {
 } from "react-icons/fi";
 import { FaFacebookF } from "react-icons/fa";
 import { Link, ScrollRestoration } from "react-router";
+import { useEffect } from "react";
 
 const About = () => {
+    useEffect(() => {
+        document.title = "About";
+    }, [])
     const stats = [
         { number: "50K+", label: "Happy Customers", icon: FiUsers },
         { number: "10K+", label: "Products", icon: FiAward },

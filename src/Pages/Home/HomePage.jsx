@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HeroSection from './Components/HeroSection';
 import FAQ from './Components/FAQ';
 import NewsletterSection from './Components/NewsletterSection';
@@ -10,6 +10,9 @@ import CategoriesSection from './Components/CategoriesSection';
 import OurProductsSection from './Components/OurProductsSection';
 
 const HomePage = () => {
+    useEffect(() => {
+        document.title = 'Home - BuyNest';
+    }, [])
     return (
         <div>
             <HeroSection></HeroSection>
