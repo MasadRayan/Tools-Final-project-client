@@ -13,13 +13,7 @@ import {
 import { IoIosLogOut } from "react-icons/io";
 import useAuth from "../../Hooks/useAuth";
 
-const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Products", path: "/products" },
-    { name: "Categories", path: "/categories", hasDropdown: true },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
-];
+
 
 const categories = [
     "Electronics",
@@ -31,16 +25,28 @@ const categories = [
 ];
 
 const Navbar = () => {
-    const { user, logOut } = useAuth()
+    const { user, setUser, logOut } = useAuth()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [dashboartBtn, setDashboartBtn] = useState(false);
 
+    const navLinks = [
+        { name: "Home", path: "/" },
+        { name: "Products", path: "/products" },
+        { name: "Categories", path: "/categories", hasDropdown: true },
+        { name: "About", path: "/about" },
+        { name: "Contact", path: "/contact" },
+    ];
+
+    if (user) {
+        navLinks.push({ name: "Dashboard", path: "/dashboard" });
+    }
+
     const handleLogOut = async () => {
         try {
             await logOut();
-            setUser(null); 
-            window.location.reload();
+            setUser(null);
+            // window.location.reload();
             setDashboartBtn(false);
         } catch (error) {
             console.error("Logout failed:", error);
@@ -93,31 +99,22 @@ const Navbar = () => {
                                     }
                                     onMouseLeave={() => setActiveDropdown(null)}
                                 >
-                                    <Link
-                                        to={link.path}
-                                        className="flex items-center gap-1 text-foreground font-medium hover:text-primary transition-colors duration-300 py-2"
-                                    >
-                                        {link.name}
-                                        {link.hasDropdown && (
-                                            <FiChevronDown
-                                                className={`transition-transform duration-300 ${activeDropdown === link.name ? "rotate-180" : ""
-                                                    }`}
-                                            />
-                                        )}
-                                    </Link>
+                                    <div>
+                                        <Link
+                                            to={link.path}
+                                            className="flex items-center gap-1 text-foreground font-medium hover:text-primary transition-colors duration-300 py-2"
+                                        >
+                                            {link.name}
+                                            {link.hasDropdown && (
+                                                <FiChevronDown
+                                                    className={`transition-transform duration-300 ${activeDropdown === link.name ? "rotate-180" : ""
+                                                        }`}
+                                                />
+                                            )}
 
-                                    {
-                                        user && (
-                                            <>
-                                                <Link
-                                                    to={'/dashboard'}
-                                                    className="flex items-center gap-1 text-foreground font-medium hover:text-primary transition-colors duration-300 py-2"
-                                                >
-                                                    Dashboard
-                                                </Link>
-                                            </>
-                                        )
-                                    }
+                                        </Link>
+
+                                    </div>
 
                                     {/* Dropdown Menu */}
                                     {link.hasDropdown && (
@@ -150,32 +147,28 @@ const Navbar = () => {
                         {/* Action Icons */}
                         <div className="flex items-center gap-0 md:gap-4">
 
-                            <div className="flex items-center gap-2 relative">
+                            <div className="flex items-center gap-3 relative">
                                 {
                                     user ? (<>
                                         <motion.div
-                                            initial={{ opacity: 0, y: -100 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
                                             onClick={() => setDashboartBtn(!dashboartBtn)}
                                         >
                                             <img src={user.photoURL}
                                                 alt={user.displayName}
                                                 referrerPolicy="no-referrer"
-                                                className="w-10 h-10 rounded-full p-2 border border-primary"
+                                                className="w-12 h-12 rounded-full object-cover cursor-pointer hover:scale-105 transition-all"
                                             />
 
                                             {/* Profile dropdown */}
                                             {dashboartBtn && (
-                                                <div className="absolute top-14 right-0 w-56 bg-base-100 shadow-lg rounded-xl p-4 z-50 flex flex-col gap-3">
+                                                <div className="hidden md:flex absolute top-14 right-8 w-56 bg-base-100 border-4 border-primary shadow-lg rounded-xl p-4 z-50 flex-col gap-3">
                                                     <div className="text-center">
                                                         <p className="font-semibold text-lg">{user.displayName}</p>
                                                     </div>
                                                     <Link
                                                         to="/dashboard"
                                                         onClick={() => setDashboartBtn(false)}
-                                                        className="btn btn-sm text-white bg-[#07A698] w-full"
+                                                        className="btn btn-sm text-white bg-primary rounded-2xl py-5 text-base w-full"
                                                     >
                                                         Dashboard
                                                     </Link>
@@ -272,36 +265,28 @@ const Navbar = () => {
                                             (<>
                                                 <motion.div
                                                     initial={{ opacity: 0, y: -100 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    whileHover={{ scale: 1.1 }}
-                                                    whileTap={{ scale: 0.9 }}
+                                                    animate={{ opacity: 1, y: 0 }}                                                   
+                                                    className="flex justify-center items-center gap-5 "
                                                 >
-                                                    <img src={user.photoURL}
-                                                        alt={user.displayName}
-                                                        referrerPolicy="no-referrer"
-                                                        className="w-10 h-10 rounded-full p-2 border border-primary" />
+                                                    <div className="flex flex-col justify-center items-center gap-2">
+                                                        <img src={user.photoURL}
+                                                            alt={user.displayName}
+                                                            referrerPolicy="no-referrer"
+                                                            className="w-12 h-12 rounded-full"
+                                                        />
+                                                        <span className="text-lg font-bold">{user.displayName}</span>
+                                                    </div>
+                                                    <div>
+                                                        <button
+                                                        onClick={handleLogOut}
+                                                            className="items-center gap-2 btn bg-primary rounded-4xl text-white py-2 px-4"
+                                                        >
+                                                            <IoIosLogOut size={18} />
+                                                            <span>LogOut</span>
+                                                        </button>
+                                                    </div>
 
                                                 </motion.div>
-                                                <Link to={'/dashboard'}>
-                                                    <motion.button
-                                                        whileHover={{ scale: 1.1 }}
-                                                        whileTap={{ scale: 0.9 }}
-                                                        className="hidden sm:flex items-center gap-2 btn bg-primary rounded-4xl text-white py-2 px-4"
-                                                    >
-                                                        <FiUser size={18} />
-                                                        <span>Dashboard</span>
-                                                    </motion.button>
-                                                </Link>
-                                                <div>
-                                                    <motion.button
-                                                        whileHover={{ scale: 1.1 }}
-                                                        whileTap={{ scale: 0.9 }}
-                                                        className="hidden sm:flex items-center gap-2 btn bg-primary rounded-4xl text-white py-2 px-4"
-                                                    >
-                                                        <IoIosLogOut size={18} />
-                                                        <span>LogOut</span>
-                                                    </motion.button>
-                                                </div>
                                             </>)
                                             :
                                             (<>
