@@ -4,10 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
     FiMenu,
     FiX,
-    FiShoppingCart,
-    FiHeart,
     FiUser,
-    FiSearch,
     FiChevronDown,
 } from "react-icons/fi";
 import { IoIosLogOut } from "react-icons/io";
@@ -15,14 +12,7 @@ import useAuth from "../../Hooks/useAuth";
 
 
 
-const categories = [
-    "Electronics",
-    "Fashion",
-    "Home & Living",
-    "Beauty",
-    "Sports",
-    "Books",
-];
+
 
 const Navbar = () => {
     const { user, setUser, logOut } = useAuth()
@@ -33,7 +23,7 @@ const Navbar = () => {
     const navLinks = [
         { name: "Home", path: "/" },
         { name: "Products", path: "/products" },
-        { name: "Categories", path: "/categories", hasDropdown: true },
+        
         { name: "About", path: "/about" },
         { name: "Contact", path: "/contact" },
     ];
@@ -116,30 +106,7 @@ const Navbar = () => {
 
                                     </div>
 
-                                    {/* Dropdown Menu */}
-                                    {link.hasDropdown && (
-                                        <AnimatePresence>
-                                            {activeDropdown === link.name && (
-                                                <motion.div
-                                                    initial={{ opacity: 0, y: 10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    exit={{ opacity: 0, y: 10 }}
-                                                    transition={{ duration: 0.2 }}
-                                                    className="absolute bg-base-100 top-full left-0 mt-2 w-48 bg-card rounded-xl shadow-buynest-lg overflow-hidden"
-                                                >
-                                                    {categories.map((category) => (
-                                                        <Link
-                                                            key={category}
-                                                            to={`/categories/${category.toLowerCase()}`}
-                                                            className="block px-4 py-3 text-secondary hover:bg-muted hover:text-primary transition-colors duration-200"
-                                                        >
-                                                            {category}
-                                                        </Link>
-                                                    ))}
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    )}
+                                    
                                 </div>
                             ))}
                         </div>
