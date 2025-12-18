@@ -66,7 +66,7 @@ const Navbar = () => {
             <motion.nav
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                className={"sticky top-0 z-50 bg-transparent transition-all duration-300 px-2 backdrop-blur-2xl shadow-md"}
+                className={"sticky top-0 z-20 bg-transparent transition-all duration-300 px-2 backdrop-blur-2xl shadow-md"}
             >
                 <div className="container-buynest">
                     <div className="flex items-center justify-between h-20">
