@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiFilter, FiX, FiStar, FiShoppingCart, FiHeart, FiEye } from 'react-icons/fi';
+import { FiFilter, FiX, FiStar, FiHeart, FiEye } from 'react-icons/fi';
+import { HiViewGridAdd } from "react-icons/hi";
 import { Fade } from 'react-awesome-reveal';
-import { ScrollRestoration } from 'react-router';
+import { Link, ScrollRestoration, useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import useAxios from '../../Hooks/useAxios';
 import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
@@ -15,11 +16,14 @@ const ProductPage = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [inStockOnly, setInStockOnly] = useState(false);
     const [sortBy, setSortBy] = useState('featured');
-    const axiosInstance = useAxios()
+
+    const axiosInstance = useAxios();
+    const navigate = useNavigate();
 
     const {
-        data: productsDatas = { data: [] },
-        isLoading
+        data: productsResponse  = { data: [] },
+        isLoading,
+        isError,
     } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
@@ -32,15 +36,19 @@ const ProductPage = () => {
         return <LoadingSpinner></LoadingSpinner>;
     }
 
-    const productsData = productsDatas;
-    
+    if (isError) {
+        return (<p className="text-center text-red-500">Failed to load products</p>);
+    }
+
+    const productsData = productsResponse || [];
+
 
     const filteredProducts = productsData.filter((product) => {
         return (
             product.price >= priceRange[0] &&
             product.price <= priceRange[1] &&
             (selectedCategory === 'All' || product.category === selectedCategory) &&
-            (!inStockOnly || product.quantity >0 )
+            (!inStockOnly || product.quantity > 0)
         );
     });
 
@@ -61,6 +69,10 @@ const ProductPage = () => {
         setPriceRange([0, 500]);
         setSelectedCategory('All');
         setInStockOnly(false);
+    };
+
+    const gotoDetailsPage = (id) => {
+        navigate(`/product/${id}`);
     };
 
     const FilterSidebar = () => (
@@ -266,7 +278,7 @@ const ProductPage = () => {
                         {/* Products Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {sortedProducts.map((product, index) => (
-                                <Fade key={product.id} direction="up" delay={index * 50} triggerOnce>
+                                <Fade key={product._id} direction="up" delay={index * 50} triggerOnce>
                                     <motion.div
                                         whileHover={{ y: -5 }}
                                         className="group bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
@@ -306,11 +318,12 @@ const ProductPage = () => {
                                             {/* Add to Cart Button */}
                                             <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                                                 <button
+                                                    onClick={() => gotoDetailsPage(product._id)}
                                                     disabled={!product.quantity}
-                                                    className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed"
+                                                    className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors cursor-pointer disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed"
                                                 >
-                                                    <FiShoppingCart className="w-5 h-5" />
-                                                    {product.quantity ? 'Add to Cart' : 'Out of Stock'}
+                                                    <HiViewGridAdd className="w-5 h-5" />
+                                                    {product.quantity ? 'Details' : 'Out of Stock'}
                                                 </button>
                                             </div>
                                         </div>
