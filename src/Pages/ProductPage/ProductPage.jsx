@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiFilter, FiX, FiStar, FiHeart, FiEye } from 'react-icons/fi';
 import { HiViewGridAdd } from "react-icons/hi";
@@ -11,23 +11,27 @@ import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
 const categories = ['All', 'Electronics', 'Fashion', 'Home & Living', 'Beauty', 'Sports', 'Books'];
 
 const ProductPage = () => {
+    useEffect(() => {
+        document.title = 'All Product Page';
+    }, [])
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [priceRange, setPriceRange] = useState([0, 500]);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [inStockOnly, setInStockOnly] = useState(false);
     const [sortBy, setSortBy] = useState('featured');
+    const [page, setPage] = useState(0);
 
     const axiosInstance = useAxios();
     const navigate = useNavigate();
 
     const {
-        data: productsResponse  = { data: [] },
+        data: productsResponse = {},
         isLoading,
         isError,
     } = useQuery({
-        queryKey: ['products'],
+        queryKey: ['products', page],
         queryFn: async () => {
-            const res = await axiosInstance.get('/products');
+            const res = await axiosInstance.get(`/products/products-paginated?page=${page}`);
             return res.data
         }
     })
@@ -40,7 +44,8 @@ const ProductPage = () => {
         return (<p className="text-center text-red-500">Failed to load products</p>);
     }
 
-    const productsData = productsResponse || [];
+    const productsData = productsResponse.data || [];
+    const totalPages = Math.ceil(productsResponse.total || 0) / (productsResponse.limit || 1)
 
 
     const filteredProducts = productsData.filter((product) => {
@@ -276,6 +281,7 @@ const ProductPage = () => {
                         </div>
 
                         {/* Products Grid */}
+
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {sortedProducts.map((product, index) => (
                                 <Fade key={product._id} direction="up" delay={index * 50} triggerOnce>
@@ -355,6 +361,21 @@ const ProductPage = () => {
                                     </motion.div>
                                 </Fade>
                             ))}
+                        </div>
+                        <div>
+                            {totalPages >= 1 && (
+                                <div className="flex justify-center mt-10 gap-2">
+                                    {Array.from({ length: totalPages }, (_, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => setPage(i)}
+                                            className={`btn btn-sm ${page === i ? 'bg-primary text-white' : 'btn-outline'}`}
+                                        >
+                                            {i + 1}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         {/* Empty State */}
