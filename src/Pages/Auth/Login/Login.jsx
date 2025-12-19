@@ -56,8 +56,8 @@ const Login = () => {
     // handle Google SignIn
     const handleGoogleSignIn = () => {
         googleSignIn()
-            .then( async (userCredential) => {
-                const user  = userCredential.user;
+            .then(async (userCredential) => {
+                const user = userCredential.user;
                 const userInfo = {
                     email: user.email,
                     displayName: user.displayName,
@@ -67,19 +67,18 @@ const Login = () => {
                     lastLogin: new Date().toString()
                 };
                 const userResponse = await axiosInstance.post("/users", userInfo);
-                setUser(user);
                 toast.success("User logged in successfully!");
                 navigate(from, { replace: true });
             })
             .catch((err) => {
-                toast.error("Cant sign in with Google. Please try again.");
+                console.log(err.message);
             })
     }
 
     // handle GitHub SignIn
     const handleGitHubSignIn = () => {
         gitHubSignIn()
-            .then( async (userCredential) => {
+            .then(async (userCredential) => {
                 const user = userCredential.user;
                 const userInfo = {
                     email: user.email,
@@ -90,7 +89,6 @@ const Login = () => {
                     lastLogin: new Date().toString()
                 }
                 const userResponse = await axiosInstance.post("/users", userInfo);
-                setUser(user);
                 toast.success("User logged in successfully!");
                 navigate(from, { replace: true });
             })

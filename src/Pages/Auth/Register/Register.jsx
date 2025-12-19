@@ -119,12 +119,11 @@ const Register = () => {
                     lastLogin: new Date().toString()
                 };
                 const userResponse = await axiosInstance.post("/users", userInfo);
-                setUser(user);
                 toast.success("User logged in successfully!");
                 navigate(from, { replace: true });
             })
             .catch((err) => {
-                toast.error("Cant sign in with Google. Please try again.");
+                console.log("Cant sign in with Google. Please try again.");
             })
     }
 
@@ -142,12 +141,11 @@ const Register = () => {
                     lastLogin: new Date().toString()
                 }
                 const userResponse = await axiosInstance.post("/users", userInfo);
-                setUser(user);
                 toast.success("User logged in successfully!");
                 navigate(from, { replace: true });
             })
             .catch((err) => {
-                toast.error("Cant sign in with GitHub. Please try again.");
+                console.log("Cant sign in with GitHub. Please try again.");
             })
     }
 
