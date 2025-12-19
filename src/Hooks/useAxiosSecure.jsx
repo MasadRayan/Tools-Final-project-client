@@ -11,7 +11,6 @@ const useAxiosSecure = () => {
 
   useEffect(() => {
     if (!loading && user?.accessToken) {
-      // ✅ set request interceptor
       const requestInterceptor = axiosSecure.interceptors.request.use(
         (config) => {
           config.headers.Authorization = `Bearer ${user.accessToken}`;
@@ -22,7 +21,6 @@ const useAxiosSecure = () => {
         }
       );
 
-      // ✅ set response interceptor for 401/403 auto logout
       const responseInterceptor = axiosSecure.interceptors.response.use(
         (response) => response,
         (error) => {
@@ -35,7 +33,6 @@ const useAxiosSecure = () => {
         }
       );
 
-      // ✅ cleanup: remove interceptors on unmount or on user change
       return () => {
         axiosSecure.interceptors.request.eject(requestInterceptor);
         axiosSecure.interceptors.response.eject(responseInterceptor);
