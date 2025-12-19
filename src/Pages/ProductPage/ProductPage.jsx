@@ -292,27 +292,17 @@ const ProductPage = () => {
                                             />
 
                                             {/* Badges */}
-                                            <div className="absolute top-3 left-3 flex flex-col gap-2">
-                                                {product.originalPrice > product.price && (
-                                                    <span className="bg-destructive text-destructive-foreground text-xs font-bold px-2 py-1 rounded-full">
-                                                        -{Math.round((1 - product.price / product.originalPrice) * 100)}%
+                                            <div className="absolute top-3 left-3 gap-2 flex justify-center items-center">
+                                                {product.price > product.discountedPrice && (
+                                                    <span className="bg-secondary text-white text-xs font-bold px-2 py-1 rounded-full w-fit">
+                                                        -{Math.round((1 - product.discountedPrice / product.price) * 100)}%
                                                     </span>
                                                 )}
                                                 {!product.quantity && (
-                                                    <span className="badge text-muted-foreground text-xs font-bold px-2 py-1 rounded-full">
+                                                    <span className="badge bg-red-500 text-white border-none text-xs font-bold px-2 py-1 rounded-full">
                                                         Out of Stock
                                                     </span>
                                                 )}
-                                            </div>
-
-                                            {/* Quick Actions */}
-                                            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button className="p-2 bg-background/90 backdrop-blur-sm rounded-full hover:bg-primary hover:text-primary-foreground transition-colors shadow-md">
-                                                    <FiHeart className="w-4 h-4" />
-                                                </button>
-                                                <button className="p-2 bg-background/90 backdrop-blur-sm rounded-full hover:bg-primary hover:text-primary-foreground transition-colors shadow-md">
-                                                    <FiEye className="w-4 h-4" />
-                                                </button>
                                             </div>
 
                                             {/* Add to Cart Button */}
@@ -353,11 +343,11 @@ const ProductPage = () => {
                                             {/* Price */}
                                             <div className="flex items-center gap-2 mt-3">
                                                 <span className="text-xl font-bold text-foreground">
-                                                    ${product.price.toFixed(2)}
+                                                    ${product.discountedPrice.toFixed(2)}
                                                 </span>
-                                                {product.originalPrice > product.price && (
+                                                {product.price > product.discountedPrice && (
                                                     <span className="text-sm text-muted-foreground line-through">
-                                                        ${product.originalPrice.toFixed(2)}
+                                                        ${product.price.toFixed(2)}
                                                     </span>
                                                 )}
                                             </div>
