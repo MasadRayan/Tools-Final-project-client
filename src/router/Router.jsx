@@ -9,6 +9,9 @@ import ProductPage from "../Pages/ProductPage/ProductPage";
 import ProductDetailsPage from "../Pages/ProductDetailsPage/ProductDetailsPage";
 import PrivateRoute from "../Routes/PrivateRoute";
 import DashBoardLayout from "../Layouts/DashBoardLayout";
+import DashBoardHome from "../DashBoard/DashBoardHome/DashBoardHome";
+import AdminRoute from "../Routes/AdminRoute";
+import AddProducts from "../DashBoard/AdminDashBoard/AddProducts";
 
 export const router = createBrowserRouter([
     {
@@ -52,7 +55,20 @@ export const router = createBrowserRouter([
         element: <PrivateRoute>
             <DashBoardLayout></DashBoardLayout>
         </PrivateRoute>,
-        
+        children: [
+            {
+                index: true,
+                Component: DashBoardHome,
+            },
+            // Admin Routes
+            {
+                path: 'addProducts',
+                element: <AdminRoute>
+                    <AddProducts></AddProducts>
+                </AdminRoute>
+            }
+        ]
+
     },
     {
         path: '*',
