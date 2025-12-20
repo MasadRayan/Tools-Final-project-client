@@ -8,6 +8,7 @@ import Register from "../Pages/Auth/Register/Register";
 import ProductPage from "../Pages/ProductPage/ProductPage";
 import ProductDetailsPage from "../Pages/ProductDetailsPage/ProductDetailsPage";
 import PrivateRoute from "../Routes/PrivateRoute";
+import DashBoardLayout from "../Layouts/DashBoardLayout";
 
 export const router = createBrowserRouter([
     {
@@ -45,5 +46,16 @@ export const router = createBrowserRouter([
                 </PrivateRoute>
             }
         ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoute>
+            <DashBoardLayout></DashBoardLayout>
+        </PrivateRoute>,
+        
+    },
+    {
+        path: '*',
+        Component: RootLayout
     }
 ])
