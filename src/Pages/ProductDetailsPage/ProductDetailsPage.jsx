@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Fade } from "react-awesome-reveal";
 import {
@@ -15,6 +15,9 @@ import {
   FiStar,
 } from "react-icons/fi";
 import { useNavigate, useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import LoadingSpinner from "../../Components/LoadingSpinner/LoadingSpinner";
 
 
 /* Mock product data */
@@ -64,6 +67,9 @@ const relatedProducts = [
 ];
 
 const ProductDetailsPage = () => {
+  useEffect(() => {
+    document.title = 'Product Details';
+  }, [])
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -71,13 +77,37 @@ const ProductDetailsPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
+  const axiosSecure = useAxiosSecure();
 
-  const product = mockProduct;
+  const {
+    data: product,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['product', id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/products/${id}`);
+      return res.data
+    }
+  })
+
+  if (isLoading) {
+    return <LoadingSpinner></LoadingSpinner>
+  }
+
+  if (isError) {
+    return (<p className="text-center text-red-500">Failed to load product</p>);
+  }
+
+
+  console.log(product);
+
+
 
   const discountPercentage = product.discountedPrice
     ? Math.round(
-        ((product.price - product.discountedPrice) / product.price) * 100
-      )
+      ((product.price - product.discountedPrice) / product.price) * 100
+    )
     : 0;
 
   const handleQuantityChange = (action) => {
@@ -92,7 +122,7 @@ const ProductDetailsPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
 
-     <main className="pt-32 pb-20">
+      <main className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           {/* Breadcrumb */}
           <Fade triggerOnce>
@@ -154,7 +184,7 @@ const ProductDetailsPage = () => {
                     </div>
                   )}
 
-                  
+
                 </motion.div>
 
                 {/* Thumbnails */}
@@ -163,11 +193,10 @@ const ProductDetailsPage = () => {
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`relative shrink-0 w-20 h-20  rounded-lg overflow-hidden border-2 transition-all ${
-                        selectedImage === index
-                          ? "border-primary ring-2 ring-primary/20"
-                          : "border-transparent hover:border-muted-foreground/30"
-                      }`}
+                      className={`relative shrink-0 w-20 h-20  rounded-lg overflow-hidden border-2 transition-all ${selectedImage === index
+                        ? "border-primary ring-2 ring-primary/20"
+                        : "border-transparent hover:border-muted-foreground/30"
+                        }`}
                     >
                       <img
                         src={img}
@@ -193,16 +222,15 @@ const ProductDetailsPage = () => {
                       {[...Array(5)].map((_, i) => (
                         <FiStar
                           key={i}
-                          className={`w-4 h-4 ${
-                            i < Math.floor(product.rating)
-                              ? "text-yellow-500 fill-yellow-500"
-                              : "text-muted-foreground"
-                          }`}
+                          className={`w-4 h-4 ${i < Math.floor(product.rating)
+                            ? "text-yellow-500 fill-yellow-500"
+                            : "text-muted-foreground"
+                            }`}
                         />
                       ))}
                     </div>
                     <span className="text-sm text-muted-foreground">
-                      {product.rating} 
+                      {product.rating}
                     </span>
                   </div>
                 </div>
@@ -230,31 +258,29 @@ const ProductDetailsPage = () => {
                 </div>
 
                 {/* Color Selection */}
-                <div className="space-y-3">
+                {/* <div className="space-y-3">
                   <span className="text-sm font-medium text-foreground">Color</span>
                   <div className="flex gap-3">
                     {product.colors.map((color, index) => (
                       <button
                         key={index}
                         onClick={() => setSelectedColor(index)}
-                        className={`w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center ${
-                          selectedColor === index
-                            ? "border-primary ring-2 ring-primary/20"
-                            : "border-muted hover:border-muted-foreground"
-                        }`}
+                        className={`w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center ${selectedColor === index
+                          ? "border-primary ring-2 ring-primary/20"
+                          : "border-muted hover:border-muted-foreground"
+                          }`}
                         style={{ backgroundColor: color }}
                       >
                         {selectedColor === index && (
                           <FiCheck
-                            className={`w-5 h-5 ${
-                              color === "#1a1a1a" ? "text-white" : "text-foreground"
-                            }`}
+                            className={`w-5 h-5 ${color === "#1a1a1a" ? "text-white" : "text-foreground"
+                              }`}
                           />
                         )}
                       </button>
                     ))}
                   </div>
-                </div>
+                </div> */}
 
                 {/* Quantity Selector */}
                 <div className="space-y-3">
@@ -344,15 +370,14 @@ const ProductDetailsPage = () => {
             <Fade triggerOnce>
               {/* Tab Headers */}
               <div className="flex border-b border-border">
-                {(["description", "specifications", "reviews"] ).map((tab) => (
+                {(["description", "specifications", "reviews"]).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-6 py-4 font-medium capitalize transition-colors relative ${
-                      activeTab === tab
-                        ? "text-primary"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
+                    className={`px-6 py-4 font-medium capitalize transition-colors relative ${activeTab === tab
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                      }`}
                   >
                     {tab}
                     {activeTab === tab && (

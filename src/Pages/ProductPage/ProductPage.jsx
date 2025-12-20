@@ -45,8 +45,9 @@ const ProductPage = () => {
     }
 
     const productsData = productsResponse.data || [];
-    const totalPages = Math.ceil(productsResponse.total || 0) / (productsResponse.limit || 1)
-
+    const totalPages = Math.ceil(
+        (productsResponse.total || 0) / (productsResponse.limit || 1)
+    );
 
     const filteredProducts = productsData.filter((product) => {
         return (
@@ -292,7 +293,7 @@ const ProductPage = () => {
                                         {/* Image Container */}
                                         <div className="relative aspect-square overflow-hidden bg-muted">
                                             <img
-                                                src={product.image}
+                                                src={product.images[0]}
                                                 alt={product.name}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                             />

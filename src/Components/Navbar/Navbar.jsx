@@ -148,7 +148,7 @@ const Navbar = () => {
                                                 whileHover={{ scale: 1.1 }}
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={handleLogOut}
-                                                className="hidden sm:flex items-center gap-2 btn bg-primary rounded-4xl text-white py-2 px-4"
+                                                className="hidden sm:flex items-center gap-2 btn bg-primary rounded-4xl text-white border-none py-2 px-4"
                                             >
                                                 <IoIosLogOut size={18} />
                                                 <span>LogOut</span>
