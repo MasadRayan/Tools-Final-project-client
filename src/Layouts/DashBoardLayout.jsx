@@ -113,7 +113,7 @@ const DashBoardLayout = () => {
                         </NavLink>
                     </li>
 
-                    {/* student layout */}
+                    {/* user layout */}
                     {
                         !roleLoading && role === 'user' &&
                         <>

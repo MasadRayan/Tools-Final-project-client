@@ -13,6 +13,7 @@ import DashBoardHome from "../DashBoard/DashBoardHome/DashBoardHome";
 import AdminRoute from "../Routes/AdminRoute";
 import AddProducts from "../DashBoard/AdminDashBoard/AddProducts";
 import Profile from "../DashBoard/Profile/Profile";
+import AllUsers from "../DashBoard/AdminDashBoard/AllUsers";
 
 export const router = createBrowserRouter([
     {
@@ -70,6 +71,12 @@ export const router = createBrowserRouter([
                 path: 'addProducts',
                 element: <AdminRoute>
                     <AddProducts></AddProducts>
+                </AdminRoute>
+            },
+            {
+                path: 'allUsers',
+                element: <AdminRoute>
+                    <AllUsers></AllUsers>
                 </AdminRoute>
             }
         ]
