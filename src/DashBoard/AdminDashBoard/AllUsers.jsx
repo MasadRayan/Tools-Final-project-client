@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
+import useAuth from '../../Hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const AllUsers = () => {
     useEffect(() => {
@@ -27,8 +29,34 @@ const AllUsers = () => {
     const users = data?.data || [];
     const totalPages = Math.ceil((data?.total || 0) / (data?.limit || 1));
 
-    const updateRole = async () => {
+    const updateRole = async (email, newRole) => {
+        try {
+            const result = await Swal.fire({
+                title: "Are you sure?",
+                text: `You are about to set this user's role to ${newRole}.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#4A70A9',
+                cancelButtonColor: '#d33',
+                confirmButtonText: `Yes, set as ${newRole}`
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const res = await axiosSecure.patch(`/users/role/${email}`, { role: newRole });
+                    if (res.data.modifiedCount > 0) {
+                        Swal.fire(
+                            'Success!',
+                            `User role has been updated to ${newRole}.`,
+                            'success'
+                        );
+                        refetch();
+                    }
+                } else if (result.isDenied) {
+                    Swal.fire('Error', 'Failed to update role.', 'error');
+                }
+            });
+        } catch (error) {
 
+        }
     }
 
     return (
@@ -82,7 +110,7 @@ const AllUsers = () => {
                                         )}
                                         {user.role === 'admin' && (
                                             <button
-                                                onClick={() => updateRole(user.email, 'student')}
+                                                onClick={() => updateRole(user.email, 'user')}
                                                 className="btn btn-sm btn-error text-white"
                                             >
                                                 Remove Admin
