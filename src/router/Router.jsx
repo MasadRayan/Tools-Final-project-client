@@ -14,6 +14,7 @@ import AdminRoute from "../Routes/AdminRoute";
 import AddProducts from "../DashBoard/AdminDashBoard/AddProducts";
 import Profile from "../DashBoard/Profile/Profile";
 import AllUsers from "../DashBoard/AdminDashBoard/AllUsers";
+import AllProducts from "../DashBoard/AdminDashBoard/AllProducts";
 
 export const router = createBrowserRouter([
     {
@@ -77,6 +78,12 @@ export const router = createBrowserRouter([
                 path: 'allUsers',
                 element: <AdminRoute>
                     <AllUsers></AllUsers>
+                </AdminRoute>
+            },
+            {
+                path: 'allProducts',
+                element: <AdminRoute>
+                    <AllProducts></AllProducts>
                 </AdminRoute>
             }
         ]

@@ -61,6 +61,7 @@ const AllUsers = () => {
                                             <img
                                                 src={user.photoURL}
                                                 alt={user.displayName}
+                                                referrerPolicy='no-referrer'
                                                 className="w-10 h-10 rounded-full object-cover"
                                             />
                                         </div>
@@ -99,7 +100,7 @@ const AllUsers = () => {
                                 <button
                                     key={num}
                                     onClick={() => setPage(num)}
-                                    className={`btn btn-sm ${page === num ? 'bg-[#07A698] text-white' : 'btn-outline'}`}
+                                    className={`btn btn-sm ${page === num ? 'bg-primary text-white' : 'btn-outline'}`}
                                 >
                                     {num + 1}
                                 </button>
