@@ -16,24 +16,19 @@ import {
   FiDroplet
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import useUserRole from '../../Hooks/useUserRole';
+import useAuth from '../../Hooks/useAuth';
 
-const categories = [
-  'Electronics',
-  'Fashion',
-  'Home & Living',
-  'Sports & Outdoors',
-  'Books',
-  'Beauty & Personal Care',
-  'Toys & Games',
-  'Automotive',
-  'Health & Wellness',
-  'Food & Beverages'
-];
+const categories = ['Electronics', 'Fashion', 'Home & Living', 'Beauty', 'Sports', 'Books'];
 
 const AddProduct = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadingIndex, setUploadingIndex] = useState(null);
+  const axiosSecure = useAxiosSecure();
+  const {role, roleLoading} = useUserRole();
+  const {user, loading: authLoading} = useAuth();
 
   const form = useForm({
     defaultValues: {
@@ -47,7 +42,7 @@ const AddProduct = () => {
       shortDescription: '',
       description: '',
       specifications: [{ label: '', value: '' }],
-      colors: ['#000000']
+      colors: ['#rrggbb']
     }
   });
 
@@ -137,15 +132,16 @@ const AddProduct = () => {
         specifications: data.specifications.filter(spec => spec.label && spec.value),
         id: Date.now().toString()
       };
-
-      console.log('Product Data:', productData);
       
-      // Send to your backend API
-      // const response = await fetch('/api/products', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(productData)
-      // });
+      const resData = await axiosSecure.post("/products", productData);
+      
+      if (!resData) {
+        toast.error('Failed to add product. Please try again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      console.log(resData);
       
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -584,7 +580,7 @@ const AddProduct = () => {
                               <input 
                                 type="color"
                                 className="w-20 h-20 rounded-xl cursor-pointer border-4 border-base-200 hover:border-primary transition-all"
-                                {...register(`colors.${index}`)}
+                                {...register(`colors.${index}`, { value: field || '#000000' })}
                               />
                               {colorFields.length > 1 && (
                                 <button

@@ -12,6 +12,7 @@ import DashBoardLayout from "../Layouts/DashBoardLayout";
 import DashBoardHome from "../DashBoard/DashBoardHome/DashBoardHome";
 import AdminRoute from "../Routes/AdminRoute";
 import AddProducts from "../DashBoard/AdminDashBoard/AddProducts";
+import Profile from "../DashBoard/Profile/Profile";
 
 export const router = createBrowserRouter([
     {
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: DashBoardHome,
+            },
+            {
+                path: 'profile',
+                Component: Profile,
             },
             // Admin Routes
             {

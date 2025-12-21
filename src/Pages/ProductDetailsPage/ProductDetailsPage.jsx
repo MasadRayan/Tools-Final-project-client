@@ -14,41 +14,13 @@ import {
   FiRefreshCw,
   FiStar,
 } from "react-icons/fi";
-import { useNavigate, useParams } from "react-router";
+import { ScrollRestoration, useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import LoadingSpinner from "../../Components/LoadingSpinner/LoadingSpinner";
+import useAuth from "../../Hooks/useAuth";
 
 
-/* Mock product data */
-const mockProduct = {
-  id: "1",
-  name: "Premium Wireless Headphones Pro Max",
-  images: [
-    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
-    "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800",
-    "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=800",
-    "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800",
-  ],
-  price: 299.99,
-  discountedPrice: 199.99,
-  description:
-    "Experience audio like never before with our Premium Wireless Headphones Pro Max...",
-  shortDescription:
-    "Premium wireless headphones with active noise cancellation.",
-  quantity: 15,
-  category: "Electronics",
-  rating: 4.8,
-  colors: ["#1a1a1a", "#f5f5f5", "#2563eb"],
-  specifications: [
-    { label: "Battery Life", value: "40 hours" },
-    { label: "Bluetooth", value: "5.3" },
-    { label: "Driver Size", value: "40mm" },
-    { label: "Weight", value: "250g" },
-    { label: "Noise Cancellation", value: "Active" },
-    { label: "Charging", value: "USB-C Fast Charge" },
-  ],
-};
 
 const relatedProducts = [
   {
@@ -86,9 +58,14 @@ const ProductDetailsPage = () => {
   } = useQuery({
     queryKey: ['product', id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/products/${id}`);
-      return res.data
-    }
+      try {
+        const res = await axiosSecure.get(`/products/${id}`);
+        return res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    enabled: !!id, // Only run query if id exists
   })
 
   if (isLoading) {
@@ -98,11 +75,6 @@ const ProductDetailsPage = () => {
   if (isError) {
     return (<p className="text-center text-red-500">Failed to load product</p>);
   }
-
-
-  console.log(product);
-
-
 
   const discountPercentage = product.discountedPrice
     ? Math.round(
@@ -258,7 +230,7 @@ const ProductDetailsPage = () => {
                 </div>
 
                 {/* Color Selection */}
-                {/* <div className="space-y-3">
+                <div className="space-y-3">
                   <span className="text-sm font-medium text-foreground">Color</span>
                   <div className="flex gap-3">
                     {product.colors.map((color, index) => (
@@ -280,7 +252,7 @@ const ProductDetailsPage = () => {
                       </button>
                     ))}
                   </div>
-                </div> */}
+                </div>
 
                 {/* Quantity Selector */}
                 <div className="space-y-3">
@@ -414,7 +386,7 @@ const ProductDetailsPage = () => {
                           className="flex justify-between items-center py-3 px-4 bg-primary/50 rounded-lg"
                         >
                           <span className="text-muted-foreground">{spec.label}</span>
-                          <span className="font-medium text-foreground">{spec.value}</span>
+                          <span className="font-medium text-foreground w-1/2">{spec.value}</span>
                         </div>
                       ))}
                     </div>
@@ -475,7 +447,7 @@ const ProductDetailsPage = () => {
           </div>
         </div>
       </main>
-
+      <ScrollRestoration></ScrollRestoration>
     </div>
   );
 };

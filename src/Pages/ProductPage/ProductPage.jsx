@@ -15,7 +15,7 @@ const ProductPage = () => {
         document.title = 'All Product Page';
     }, [])
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [priceRange, setPriceRange] = useState([0, 500]);
+    const [priceRange, setPriceRange] = useState([0, 5000]);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [inStockOnly, setInStockOnly] = useState(false);
     const [sortBy, setSortBy] = useState('featured');
