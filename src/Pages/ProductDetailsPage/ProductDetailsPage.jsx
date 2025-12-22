@@ -298,6 +298,7 @@ const ProductDetailsPage = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className="flex-1 flex items-center justify-center gap-3 bg-primary text-primary-foreground py-4 px-8 rounded-xl font-semibold text-lg transition-colors hover:bg-primary/90"
+                    onClick={() => document.getElementById('my_modal_1').showModal()}
                   >
                     <FiShoppingCart size={22} />
                     Procede to Checkout
@@ -448,6 +449,103 @@ const ProductDetailsPage = () => {
         </div>
       </main>
       <ScrollRestoration></ScrollRestoration>
+      <dialog
+        id="my_modal_1"
+        className="modal modal-bottom sm:modal-middle bg-transparent backdrop-blur-sm"
+      >
+        <div className="modal-box bg-base-100 lg:max-w-4xl p-6 sm:p-8">
+
+          {/* Header */}
+          <h1 className="text-2xl sm:text-3xl font-bold text-primary mb-2">
+            Confirm Your Order
+          </h1>
+          <p className="text-sm text-muted-foreground mb-6">
+            Please review your order details before proceeding to payment.
+          </p>
+
+          {/* Order Summary Card */}
+          <div className="border border-border rounded-xl p-5 space-y-4">
+
+            {/* Product */}
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-sm text-muted-foreground">Product</p>
+                <p className="font-medium text-foreground">
+                  {product.name}
+                </p>
+              </div>
+              <span className="text-sm badge badge-outline bg-primary/20 text-secondary border-0">
+                In Stock
+              </span>
+            </div>
+
+            <div className="divider my-2" />
+
+            {/* Price Breakdown */}
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Unit Price</span>
+                <span className="font-medium">
+                  ${product.discountedPrice}
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Quantity</span>
+                <span className="font-medium">
+                  {quantity}
+                </span>
+              </div>
+
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Subtotal</span>
+                <span className="font-medium">
+                  ${(product.discountedPrice * quantity).toFixed(2)}
+                </span>
+              </div>
+            </div>
+
+            <div className="divider my-2" />
+
+            {/* Total */}
+            <div className="flex justify-between items-center">
+              <span className="text-lg font-semibold text-foreground">
+                Total Amount
+              </span>
+              <span className="text-xl font-bold text-primary">
+                ${(product.discountedPrice * quantity).toFixed(2)}
+              </span>
+            </div>
+          </div>
+
+          {/* Info / Trust Note */}
+          <div className="mt-5 text-base text-muted-foreground">
+            ✔ Secure payment <br />
+            ✔ No hidden charges <br />
+            ✔ You can cancel anytime before payment
+          </div>
+
+          {/* Actions */}
+          <div className="modal-action mt-6 flex flex-col sm:flex-row gap-3">
+            <form method="dialog" className="w-full sm:w-auto">
+              <button className="btn btn-outline w-full sm:w-auto">
+                Cancel
+              </button>
+            </form>
+
+            <button
+              className="btn btn-primary w-full sm:w-auto"
+              onClick={() => {
+                // handlePayment()
+              }}
+            >
+              Proceed to Payment
+            </button>
+          </div>
+
+        </div>
+      </dialog>
+
     </div>
   );
 };
