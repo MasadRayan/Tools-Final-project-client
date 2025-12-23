@@ -19,6 +19,7 @@ import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import AllOrders from "../DashBoard/AdminDashBoard/AllOrders";
 import UserRoute from "../Routes/UserRoute";
 import MyOrders from "../DashBoard/UserDashBoard/MyOrders";
+import PaymentHistory from "../DashBoard/UserDashBoard/PaymentHistory";
 
 export const router = createBrowserRouter([
     {
@@ -109,6 +110,12 @@ export const router = createBrowserRouter([
                 path: 'myOrders',
                 element: <UserRoute>
                     <MyOrders></MyOrders>
+                </UserRoute>
+            },
+            {
+                path: 'paymentHistory',
+                element: <UserRoute>
+                    <PaymentHistory></PaymentHistory>
                 </UserRoute>
             }
         ]
