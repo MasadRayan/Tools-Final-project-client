@@ -53,7 +53,7 @@ const HeroSection = () => {
                 effect="fade"
                 pagination={{ clickable: true }}
                 navigation
-                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                autoplay={{ delay: 3500, disableOnInteraction: false }}
                 loop
                 className="h-125 md:h-150 lg:h-180"
             >

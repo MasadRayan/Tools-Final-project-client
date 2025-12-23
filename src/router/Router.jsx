@@ -16,6 +16,7 @@ import Profile from "../DashBoard/Profile/Profile";
 import AllUsers from "../DashBoard/AdminDashBoard/AllUsers";
 import AllProducts from "../DashBoard/AdminDashBoard/AllProducts";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
+import AllOrders from "../DashBoard/AdminDashBoard/AllOrders";
 
 export const router = createBrowserRouter([
     {
@@ -75,6 +76,7 @@ export const router = createBrowserRouter([
                 Component: Profile,
             },
             // Admin Routes
+
             {
                 path: 'addProducts',
                 element: <AdminRoute>
@@ -91,6 +93,12 @@ export const router = createBrowserRouter([
                 path: 'allProducts',
                 element: <AdminRoute>
                     <AllProducts></AllProducts>
+                </AdminRoute>
+            },
+            {
+                path: 'allOrders',
+                element: <AdminRoute>
+                    <AllOrders></AllOrders>
                 </AdminRoute>
             }
         ]
