@@ -210,8 +210,8 @@ const PaymentSuccess = () => {
                     {/* delivary status */}
                     <div className="border border-primary rounded-lg shadow md:max-w-10/12  bg-white md:ml-16 backdrop-blur-sm">
                         <div className="p-5 md:p-6">
-                            <h3 className="text-lg font-semibold text-foreground mb-5 flex items-center gap-2">
-                                <FiPackage className="w-5 h-5 text-primary" />
+                            <h3 className="font-semibold mb-5 flex text-primary text-2xl items-center gap-2">
+                                <FiPackage size={26} />
                                 Order Status
                             </h3>
 
@@ -230,10 +230,10 @@ const PaymentSuccess = () => {
                                     ].map((step, index) => (
                                         <div key={index} className="flex items-start gap-4">
                                             <div className={`relative z-10 w-6 h-6 rounded-full flex items-center justify-center ${step.status === 'complete'
-                                                    ? 'bg-green-500 text-white'
-                                                    : step.status === 'current'
-                                                        ? 'bg-primary text-primary-foreground animate-pulse'
-                                                        : 'bg-muted border-2 border-border'
+                                                ? 'bg-green-500 text-white'
+                                                : step.status === 'current'
+                                                    ? 'bg-primary text-primary-foreground animate-pulse'
+                                                    : 'bg-muted border-2 border-border'
                                                 }`}>
                                                 {step.status === 'complete' && (
                                                     <FiCheckCircle className="w-3.5 h-3.5" />
@@ -251,6 +251,46 @@ const PaymentSuccess = () => {
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Payment Summary */}
+                    <div className="border border-primary rounded-lg shadow md:max-w-10/12 mt-10 md:mt-0 bg-white h-fit backdrop-blur-sm">
+                        <div className="p-5 md:p-6">
+                            <h3 className="text-primary text-2xl font-semibold  mb-5">
+                                Payment Summary
+                            </h3>
+
+                            <div className="space-y-3">
+                                <div className="flex justify-between text-base">
+                                    <span className="text-muted-foreground">Subtotal</span>
+                                    <span className="text-foreground">${productInfo.price.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between text-base">
+                                    <span className="text-muted-foreground">Discount</span>
+                                    <span className="text-green-500">-${(productInfo.price - productInfo.discountedPrice).toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between text-base">
+                                    <span className="text-muted-foreground">Shipping</span>
+                                    <span className="text-green-500">Free</span>
+                                </div>
+                                <div className="flex justify-between text-base">
+                                    <span className="text-muted-foreground">Tax</span>
+                                    <span className="text-foreground">$0.00</span>
+                                </div>
+
+                                <div className="flex justify-between items-center pt-2">
+                                    <span className="text-2xl font-semibold text-foreground">Total Paid</span>
+                                    <span className="text-2xl font-bold text-primary">${paymentInfo.totalAmount.toFixed(2)}</span>
+                                </div>
+
+                                <div className="flex items-center justify-center gap-2 pt-2">
+                                    <span className="badge bg-green-500/10 text-green-500 border-green-500/20">
+                                        <FiCheckCircle className="w-3 h-3 mr-1" />
+                                        {paymentInfo.paymentStatus} 
+                                    </span>
                                 </div>
                             </div>
                         </div>
