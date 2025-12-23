@@ -19,6 +19,9 @@ import {
     FiCopy
 } from 'react-icons/fi';
 
+import jsPDF from 'jspdf';
+import toast from 'react-hot-toast';
+
 const PaymentSuccess = () => {
     const [searchParams] = useSearchParams();
     const trxid = searchParams.get("trxid");
@@ -35,7 +38,7 @@ const PaymentSuccess = () => {
         },
         enabled: !!trxid && !!user?.email
     })
-    
+
     useEffect(() => {
         if (!data || !user?.email) {
             return;
@@ -63,21 +66,21 @@ const PaymentSuccess = () => {
                     // console.log("Order created successfully");
                 }
             } catch (error) {
-                
+
             }
         }
         createIOrder()
     }, [trxid, data])
 
-    
+
     if (isLoading) {
         return <LoadingSpinner></LoadingSpinner>
     }
-    
+
     if (isError) {
         return <div className='text-5xl text-center font-bold text-red-500'>Error loading payment details.</div>;
     }
-    
+
     const { paymentInfo, productInfo, updateProductQuantity } = data;
 
     const formatDate = (dateString) =>
@@ -116,6 +119,238 @@ const PaymentSuccess = () => {
             transition: { duration: 2, repeat: Infinity }
         }
     };
+
+    const handleDownloadReceipt = () => {
+        // 🔧 FIX 1: Data safety guard (prevents runtime crash)
+        if (!paymentInfo || !productInfo) return;
+
+        const doc = new jsPDF();
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+
+        // Color palette
+        const primaryColor = [99, 102, 241];
+        const secondaryColor = [139, 92, 246];
+        const successColor = [34, 197, 94];
+        const darkColor = [15, 23, 42];
+        const mutedColor = [100, 116, 139];
+        const lightBg = [248, 250, 252];
+
+        /* ---------------- HEADER ---------------- */
+
+        doc.setFillColor(...primaryColor);
+        doc.rect(0, 0, pageWidth, 85, "F");
+
+        doc.setFillColor(...secondaryColor);
+        doc.setGState(doc.GState({ opacity: 0.3 }));
+        doc.circle(pageWidth - 20, 20, 40, "F");
+        doc.circle(-10, 70, 30, "F");
+        doc.setGState(doc.GState({ opacity: 1 }));
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(28);
+        doc.setFont("helvetica", "bold");
+        doc.text("BUYNEST", pageWidth / 2, 25, { align: "center" });
+
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
+        doc.text("Premium Shopping Experience", pageWidth / 2, 33, { align: "center" });
+
+        doc.setFontSize(22);
+        doc.setFont("helvetica", "bold");
+        doc.text("PAYMENT RECEIPT", pageWidth / 2, 52, { align: "center" });
+
+        doc.setFontSize(9);
+        doc.text(
+            `Receipt #: ${paymentInfo.transactionID.slice(-8).toUpperCase()}`,
+            pageWidth / 2,
+            68,
+            { align: "center" }
+        );
+
+        doc.text(
+            `Date: ${new Date(paymentInfo.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            })}`,
+            pageWidth / 2,
+            75,
+            { align: "center" }
+        );
+
+        /* ---------------- CARD ---------------- */
+
+        const cardY = 95;
+        const cardMargin = 15;
+        const cardWidth = pageWidth - cardMargin * 2;
+        let yPos = cardY + 15;
+
+        // Card background (height calculated later)
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(cardMargin, cardY, cardWidth, 170, 5, 5, "F");
+
+        /* ---------------- SUCCESS BADGE ---------------- */
+
+        const badgeWidth = 90;
+        doc.setFillColor(...successColor);
+        doc.setGState(doc.GState({ opacity: 0.1 }));
+        doc.roundedRect((pageWidth - badgeWidth) / 2, yPos - 6, badgeWidth, 14, 7, 7, "F");
+        doc.setGState(doc.GState({ opacity: 1 }));
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...successColor);
+        doc.text("✓ PAYMENT SUCCESSFUL", (pageWidth / 2) - 10, yPos + 3, { align: "center" });
+
+        yPos += 25;
+
+        /* ---------------- CUSTOMER INFO ---------------- */
+
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...darkColor);
+        doc.text("CUSTOMER INFORMATION", cardMargin + 12, yPos);
+
+        yPos += 8;
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...mutedColor);
+        doc.text("Name:", cardMargin + 12, yPos);
+
+        doc.setTextColor(...darkColor);
+        doc.setFont("helvetica", "bold");
+        doc.text(paymentInfo.userName, cardMargin + 35, yPos);
+
+        yPos += 8;
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...mutedColor);
+        doc.text("Email:", cardMargin + 12, yPos);
+
+        // 🔧 FIX 2: Email wrapping (prevents overflow)
+        const emailLines = doc.splitTextToSize(paymentInfo.email, cardWidth - 60);
+        doc.setTextColor(...darkColor);
+        doc.text(emailLines, cardMargin + 35, yPos);
+
+        yPos += emailLines.length * 6 + 8;
+
+        /* ---------------- ORDER DETAILS ---------------- */
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.text("ORDER DETAILS", cardMargin + 12, yPos);
+
+        yPos += 10;
+
+        // 🔧 FIX 3: Product name wrapping
+        const productNameLines = doc.splitTextToSize(productInfo.name, cardWidth - 24);
+        doc.setFontSize(12);
+        doc.text(productNameLines, cardMargin + 12, yPos);
+
+        yPos += productNameLines.length * 7 + 5;
+
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...mutedColor);
+        doc.text(`Category: ${productInfo.category}`, cardMargin + 12, yPos);
+
+        yPos += 12;
+
+        /* ---------------- PRICE TABLE ---------------- */
+
+        const tableX = cardMargin + 12;
+        const tableWidth = cardWidth - 24;
+
+        doc.setFillColor(...lightBg);
+        doc.roundedRect(tableX, yPos - 5, tableWidth, 12, 2, 2, "F");
+
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "bold");
+        doc.text("ITEM", tableX + 5, yPos + 2);
+        doc.text("QTY", tableX + tableWidth - 60, yPos + 2);
+        doc.text("PRICE", tableX + tableWidth - 5, yPos + 2, { align: "right" });
+
+        yPos += 15;
+
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...darkColor);
+        doc.text(productNameLines[0], tableX + 5, yPos);
+        doc.text(String(paymentInfo.quantity), tableX + tableWidth - 60, yPos);
+        doc.text(`$${paymentInfo.unitPrice.toFixed(2)}`, tableX + tableWidth - 5, yPos, {
+            align: "right",
+        });
+
+        yPos += 18;
+
+        /* ---------------- TOTAL ---------------- */
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.text("TOTAL PAID:", tableX + tableWidth - 70, yPos);
+        doc.setFontSize(14);
+        doc.setTextColor(...primaryColor);
+        doc.text(`$${paymentInfo.totalAmount.toFixed(2)}`, tableX + tableWidth - 5, yPos, {
+            align: "right",
+        });
+
+        /* ---------------- TRANSACTION ID ---------------- */
+
+        yPos += 12;
+
+        // 🔧 FIX 4: Transaction ID wrapping
+        const txnLines = doc.splitTextToSize(
+            `Transaction ID: ${paymentInfo.transactionID}`,
+            cardWidth - 24
+        );
+
+        doc.setFontSize(8);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...mutedColor);
+        doc.text(txnLines, pageWidth / 2, yPos, { align: "center" });
+
+        /* ---------------- FOOTER ---------------- */
+
+        const footerY = pageHeight - 40;
+        doc.setDrawColor(226, 232, 240);
+        doc.line(20, footerY - 10, pageWidth - 20, footerY - 10);
+
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...darkColor);
+        doc.text("Thank you for shopping with us!", pageWidth / 2, footerY, {
+            align: "center",
+        });
+
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(...mutedColor);
+        doc.text(
+            "For any questions, contact support@shopnest.com",
+            pageWidth / 2,
+            footerY + 8,
+            { align: "center" }
+        );
+
+        doc.setFontSize(7);
+        doc.text(
+            "This is a computer-generated receipt and does not require a signature.",
+            pageWidth / 2,
+            footerY + 18,
+            { align: "center" }
+        );
+
+        doc.setFillColor(...primaryColor);
+        doc.rect(0, pageHeight - 8, pageWidth, 8, "F");
+
+        /* ---------------- SAVE ---------------- */
+
+        doc.save(
+            `ShopNest-Receipt-${paymentInfo.transactionID.slice(-8).toUpperCase()}.pdf`
+        );
+
+        toast.success("Your payment receipt has been saved.");
+    };
+
 
     return (
         <div className=" py-10 px-4">
@@ -338,7 +573,9 @@ const PaymentSuccess = () => {
                                 </Link>
                             </button>
 
-                            <button className="flex w-full justify-center items-center bg-white rounded-2xl py-4 gap-2">
+                            <button
+                                onClick={handleDownloadReceipt}
+                                className="flex w-full justify-center items-center bg-white rounded-2xl py-4 gap-2">
                                 <FiDownload className="w-4 h-4" />
                                 Receipt
                             </button>
