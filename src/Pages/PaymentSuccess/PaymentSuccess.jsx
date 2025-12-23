@@ -114,11 +114,11 @@ const PaymentSuccess = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2'>
                     {/* Product Card */}
                     <div className="mb-6 border rounded-lg shadow md:max-w-10/12 mx-auto bg-white">
-                        <div className="flex gap-1 p-5">
+                        <div className="flex flex-col md:flex-row gap-1 p-5">
                             <img
                                 src={productInfo.images[0]}
                                 alt={productInfo.name}
-                                className="w-70 rounded-lg object-cover"
+                                className="md:w-70  rounded-lg object-cover"
                             />
                             <div className="flex-1">
                                 <span className="badge bg-primary/40 text-secondary mb-2">{productInfo.category}</span>
@@ -134,7 +134,7 @@ const PaymentSuccess = () => {
                                         style={{ backgroundColor: paymentInfo.color }}
                                     />
                                 </div>
-                                <hr className='border border-gray-500 '/>
+                                <hr className='border border-gray-500 ' />
 
                                 <div className="flex justify-between mt-4 font-medium">
                                     <span>Qty: {paymentInfo.quantity}</span>
@@ -206,6 +206,56 @@ const PaymentSuccess = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* delivary status */}
+                    <div className="border border-primary rounded-lg shadow md:max-w-10/12  bg-white md:ml-16 backdrop-blur-sm">
+                        <div className="p-5 md:p-6">
+                            <h3 className="text-lg font-semibold text-foreground mb-5 flex items-center gap-2">
+                                <FiPackage className="w-5 h-5 text-primary" />
+                                Order Status
+                            </h3>
+
+                            <div className="relative">
+                                {/* Timeline line */}
+                                <div className="absolute left-2.75 top-6 bottom-6 w-0.5 bg-linear-to-b from-green-500 via-primary to-muted" />
+
+                                {/* Timeline items */}
+                                <div className="space-y-6">
+                                    {[
+                                        { label: "Order Placed", status: "complete", time: "Just now" },
+                                        { label: "Payment Confirmed", status: "complete", time: "Just now" },
+                                        { label: "Processing", status: "current", time: "In progress" },
+                                        { label: "Shipped", status: "pending", time: "Estimated 2-3 days" },
+                                        { label: "Delivered", status: "pending", time: "Estimated 5-7 days" }
+                                    ].map((step, index) => (
+                                        <div key={index} className="flex items-start gap-4">
+                                            <div className={`relative z-10 w-6 h-6 rounded-full flex items-center justify-center ${step.status === 'complete'
+                                                    ? 'bg-green-500 text-white'
+                                                    : step.status === 'current'
+                                                        ? 'bg-primary text-primary-foreground animate-pulse'
+                                                        : 'bg-muted border-2 border-border'
+                                                }`}>
+                                                {step.status === 'complete' && (
+                                                    <FiCheckCircle className="w-3.5 h-3.5" />
+                                                )}
+                                                {step.status === 'current' && (
+                                                    <div className="w-2 h-2 bg-primary-foreground rounded-full" />
+                                                )}
+                                            </div>
+                                            <div className="flex-1 pb-0">
+                                                <p className={`font-medium ${step.status === 'pending' ? 'text-muted-foreground' : 'text-foreground'
+                                                    }`}>
+                                                    {step.label}
+                                                </p>
+                                                <p className="text-sm text-muted-foreground">{step.time}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </motion.div>
         </div>
