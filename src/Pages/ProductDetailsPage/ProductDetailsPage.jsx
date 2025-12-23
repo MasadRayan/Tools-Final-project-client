@@ -90,6 +90,7 @@ const ProductDetailsPage = () => {
       setQuantity((prev) => prev - 1);
     }
   };
+  console.log(product);
 
   const handlePayment = async () => {
     const payment = {
