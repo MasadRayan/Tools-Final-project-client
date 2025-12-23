@@ -15,6 +15,7 @@ import AddProducts from "../DashBoard/AdminDashBoard/AddProducts";
 import Profile from "../DashBoard/Profile/Profile";
 import AllUsers from "../DashBoard/AdminDashBoard/AllUsers";
 import AllProducts from "../DashBoard/AdminDashBoard/AllProducts";
+import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 
 export const router = createBrowserRouter([
     {
@@ -49,6 +50,12 @@ export const router = createBrowserRouter([
                 path: '/product/:id',
                 element: <PrivateRoute>
                     <ProductDetailsPage></ProductDetailsPage>
+                </PrivateRoute>
+            },
+            {
+                path: '/success',
+                element: <PrivateRoute>
+                    <PaymentSuccess></PaymentSuccess>
                 </PrivateRoute>
             }
         ]

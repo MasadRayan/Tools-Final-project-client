@@ -44,7 +44,7 @@ const ProductDetailsPage = () => {
   }, [])
   const navigate = useNavigate();
   const { id } = useParams();
-
+  const { user } = useAuth();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(0);
@@ -90,6 +90,28 @@ const ProductDetailsPage = () => {
       setQuantity((prev) => prev - 1);
     }
   };
+
+  const handlePayment = async () => {
+    const payment = {
+      userName: user?.displayName,
+      email: user?.email,
+      productId: product._id,
+      productName: product.name,
+      productCategory: product.category,
+      unitPrice: product.discountedPrice,
+      quantity: quantity,
+      totalAmount: parseInt((product.discountedPrice * quantity)),
+      color: product.colors[selectedColor],
+      date: new Date().toISOString(),
+      transactionID: "",
+      status: "pending",
+    }
+    const res = await axiosSecure.post('/ssl-payment', payment)
+    console.log(res);
+    if (res.data?.gatewayUrl) {
+      window.location.replace(res.data.gatewayUrl);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -294,15 +316,29 @@ const ProductDetailsPage = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex-1 flex items-center justify-center gap-3 bg-primary text-primary-foreground py-4 px-8 rounded-xl font-semibold text-lg transition-colors hover:bg-primary/90"
-                    onClick={() => document.getElementById('my_modal_1').showModal()}
-                  >
-                    <FiShoppingCart size={22} />
-                    Procede to Checkout
-                  </motion.button>
+                  {
+                    product.quantity ? (
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex-1 flex items-center justify-center gap-3 bg-primary text-primary-foreground py-4 px-8 rounded-xl font-semibold text-lg transition-colors hover:bg-primary/90"
+                        onClick={() => document.getElementById('my_modal_1').showModal()}
+                      >
+                        <FiShoppingCart size={22} />
+                        Procede to Checkout
+                      </motion.button>
+                    ) : (<>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex-1 flex items-center justify-center gap-3 bg-primary text-primary-foreground py-4 px-8 rounded-xl font-semibold text-lg transition-colors hover:bg-primary/90"
+                        disabled
+                      >
+                        <FiShoppingCart size={22} />
+                        Out of Stock
+                      </motion.button>
+                    </>)
+                  }
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -535,9 +571,7 @@ const ProductDetailsPage = () => {
 
             <button
               className="btn btn-primary w-full sm:w-auto"
-              onClick={() => {
-                // handlePayment()
-              }}
+              onClick={handlePayment}
             >
               Proceed to Payment
             </button>
