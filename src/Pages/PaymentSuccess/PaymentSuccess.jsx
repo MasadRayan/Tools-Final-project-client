@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import useAuth from '../../Hooks/useAuth';
@@ -26,6 +26,7 @@ const PaymentSuccess = () => {
     const { user } = useAuth();
     const [copied, setCopied] = useState("");
 
+
     const { data, isLoading, refetch, isError } = useQuery({
         queryKey: ['paymentSuccess', trxid],
         queryFn: async () => {
@@ -34,15 +35,49 @@ const PaymentSuccess = () => {
         },
         enabled: !!trxid && !!user?.email
     })
+    
+    useEffect(() => {
+        if (!data || !user?.email) {
+            return;
+        }
+        // create order in database
+        const createIOrder = async () => {
+            const orderData = {
+                productId: productInfo._id,
+                productName: productInfo.name,
+                productImage: productInfo.images[0],
+                productCategory: productInfo.category,
+                quantity: paymentInfo.quantity,
+                totalAmount: paymentInfo.totalAmount,
+                color: paymentInfo.color,
+                transactionID: paymentInfo.transactionID,
+                status: paymentInfo.status,
+                date: paymentInfo.date,
+                email: user?.email,
+                name: user?.displayName,
+            }
 
+            try {
+                const res = await axiosSeecure.post("/orders", orderData);
+                if (res.data.insertedId) {
+                    // console.log("Order created successfully");
+                }
+            } catch (error) {
+                
+            }
+        }
+        createIOrder()
+    }, [trxid, data])
+
+    
     if (isLoading) {
         return <LoadingSpinner></LoadingSpinner>
     }
-
+    
     if (isError) {
         return <div className='text-5xl text-center font-bold text-red-500'>Error loading payment details.</div>;
     }
-
+    
     const { paymentInfo, productInfo, updateProductQuantity } = data;
 
     const formatDate = (dateString) =>
@@ -114,11 +149,11 @@ const PaymentSuccess = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2'>
                     {/* Product Card */}
                     <div className="mb-6 border rounded-lg shadow md:max-w-10/12 mx-auto bg-white">
-                        <div className="flex flex-col md:flex-row gap-1 p-5">
+                        <div className="flex flex-col lg:flex-row gap-1 p-5">
                             <img
                                 src={productInfo.images[0]}
                                 alt={productInfo.name}
-                                className="md:w-70  rounded-lg object-cover"
+                                className="lg:w-70  rounded-lg object-cover"
                             />
                             <div className="flex-1">
                                 <span className="badge bg-primary/40 text-secondary mb-2">{productInfo.category}</span>
@@ -208,9 +243,9 @@ const PaymentSuccess = () => {
                     </div>
 
                     {/* delivary status */}
-                    <div className="border border-primary rounded-lg shadow md:max-w-10/12  bg-white md:ml-16 backdrop-blur-sm">
+                    <div className="border border-primary rounded-lg shadow md:max-w-10/12 max-h-fit bg-white md:ml-16 backdrop-blur-sm">
                         <div className="p-5 md:p-6">
-                            <h3 className="font-semibold mb-5 flex text-primary text-2xl items-center gap-2">
+                            <h3 className="font-semibold mb-10 flex text-primary text-2xl items-center gap-2">
                                 <FiPackage size={26} />
                                 Order Status
                             </h3>
@@ -257,8 +292,8 @@ const PaymentSuccess = () => {
                     </div>
 
                     {/* Payment Summary */}
-                    <div className="border border-primary rounded-lg shadow md:max-w-10/12 mt-10 md:mt-0 bg-white h-fit backdrop-blur-sm">
-                        <div className="p-5 md:p-6">
+                    <div className="  md:max-w-10/12 mt-10 md:mt-0  h-fit backdrop-blur-sm">
+                        <div className="p-5 md:p-6 bg-white border border-primary rounded-lg shadow mb-6">
                             <h3 className="text-primary text-2xl font-semibold  mb-5">
                                 Payment Summary
                             </h3>
@@ -289,10 +324,33 @@ const PaymentSuccess = () => {
                                 <div className="flex items-center justify-center gap-2 pt-2">
                                     <span className="badge bg-green-500/10 text-green-500 border-green-500/20">
                                         <FiCheckCircle className="w-3 h-3 mr-1" />
-                                        {paymentInfo.paymentStatus} 
+                                        {paymentInfo.paymentStatus}
                                     </span>
                                 </div>
                             </div>
+                        </div>
+                        {/* buttons */}
+                        <div className="space-y-3 text-lg">
+                            <button className="w-full gap-2 py-4 bg-primary text-white rounded-2xl hover:bg-primary/90">
+                                <Link to="/products" className='flex justify-center items-center gap-3'>
+                                    <FiShoppingBag className="w-4 h-4" />
+                                    Continue Shopping
+                                </Link>
+                            </button>
+
+                            <button className="flex w-full justify-center items-center bg-white rounded-2xl py-4 gap-2">
+                                <FiDownload className="w-4 h-4" />
+                                Receipt
+                            </button>
+
+
+
+                            <button className="w-full gap-2 py-4 rounded-2xl  hover:bg-primary hover:text-white">
+                                <Link to="/" className='flex justify-center items-center gap-3'>
+                                    <FiHome className="w-4 h-4" />
+                                    Back to Home
+                                </Link>
+                            </button>
                         </div>
                     </div>
 
