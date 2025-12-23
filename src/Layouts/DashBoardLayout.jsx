@@ -184,13 +184,24 @@ const DashBoardLayout = () => {
                             </li>
                             <li>
                                 <NavLink
+                                    to="/dashboard/allPayments"
+                                    className={({ isActive }) =>
+                                        `flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-colors duration-200 hover:bg-primary hover:text-white ${isActive ? 'bg-primary text-white' : ''}`
+                                    }
+                                    onClick={closeDrawer}
+                                >
+                                    <FiCreditCard className="text-xl" /> All Payments 
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
                                     to="/dashboard/addProducts"
                                     className={({ isActive }) =>
                                         `flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition-colors duration-200 hover:bg-primary hover:text-white ${isActive ? 'bg-primary text-white' : ''}`
                                     }
                                     onClick={closeDrawer}
                                 >
-                                    <IoIosAddCircleOutline  className="text-xl" /> Add Products
+                                    <IoIosAddCircleOutline className="text-xl" /> Add Products
                                 </NavLink>
                             </li>
 
