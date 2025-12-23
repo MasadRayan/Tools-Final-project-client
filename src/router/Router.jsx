@@ -20,6 +20,7 @@ import AllOrders from "../DashBoard/AdminDashBoard/AllOrders";
 import UserRoute from "../Routes/UserRoute";
 import MyOrders from "../DashBoard/UserDashBoard/MyOrders";
 import PaymentHistory from "../DashBoard/UserDashBoard/PaymentHistory";
+import AllPayments from "../DashBoard/AdminDashBoard/AllPayments";
 
 export const router = createBrowserRouter([
     {
@@ -102,6 +103,12 @@ export const router = createBrowserRouter([
                 path: 'allOrders',
                 element: <AdminRoute>
                     <AllOrders></AllOrders>
+                </AdminRoute>
+            },
+            {
+                path: 'allPayments',
+                element: <AdminRoute>
+                    <AllPayments></AllPayments>
                 </AdminRoute>
             },
 
