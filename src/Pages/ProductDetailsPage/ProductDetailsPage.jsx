@@ -90,7 +90,6 @@ const ProductDetailsPage = () => {
       setQuantity((prev) => prev - 1);
     }
   };
-  console.log(product);
 
   const handlePayment = async () => {
     const payment = {
@@ -108,7 +107,6 @@ const ProductDetailsPage = () => {
       status: "pending",
     }
     const res = await axiosSecure.post('/ssl-payment', payment)
-    console.log(res);
     if (res.data?.gatewayUrl) {
       window.location.replace(res.data.gatewayUrl);
     }
