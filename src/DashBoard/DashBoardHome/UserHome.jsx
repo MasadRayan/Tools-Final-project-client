@@ -25,7 +25,12 @@ import {
 const UserHome = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
-
+    const [greeting] = useState(() => {
+        const hour = new Date().getHours();
+        if (hour < 12) return 'Good Morning';
+        if (hour < 18) return 'Good Afternoon';
+        return 'Good Evening';
+    });
     const { data, isLoading, isError } = useQuery({
         queryKey: ['userDashboard', user?.email],
         queryFn: async () => {
@@ -55,12 +60,7 @@ const UserHome = () => {
         totalPayments, totalOrders, recentOrders, recentPayments, deliveredOrders, totalMoneySpent, userInfo
     });
 
-    const [greeting] = useState(() => {
-        const hour = new Date().getHours();
-        if (hour < 12) return 'Good Morning';
-        if (hour < 18) return 'Good Afternoon';
-        return 'Good Evening';
-    });
+
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-US', {
@@ -210,7 +210,7 @@ const UserHome = () => {
                             {recentOrders.map((order, index) => {
                                 const statusConfig = getStatusConfig(order.status);
                                 const StatusIcon = statusConfig.icon;
-                                return (
+                                
                                     <motion.div
                                         key={order.id}
                                         initial={{ opacity: 0, x: -20 }}
@@ -247,7 +247,6 @@ const UserHome = () => {
                                             </div>
                                         </div>
                                     </motion.div>
-                                );
                             })}
                         </div>
                     </motion.div>
