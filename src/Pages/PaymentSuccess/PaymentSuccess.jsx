@@ -34,7 +34,6 @@ const PaymentSuccess = () => {
         queryKey: ['paymentSuccess', trxid],
         queryFn: async () => {
             const res = await axiosSeecure.get(`/products/transaction/${trxid}`);
-            console.log("hitting the route", res);
             return res.data;
         },
         enabled: !!trxid && !!user?.email

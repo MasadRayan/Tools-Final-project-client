@@ -41,7 +41,7 @@ import {
     RadialBarChart,
     RadialBar
 } from 'recharts';
-import { Link } from 'react-router';
+import { Link, ScrollRestoration } from 'react-router';
 import useAuth from '../../Hooks/useAuth';
 
 const AdminHome = () => {
@@ -550,6 +550,7 @@ const AdminHome = () => {
                     </motion.div>
                 </motion.div>
             </main>
+            <ScrollRestoration></ScrollRestoration>
         </div>
     );
 };
