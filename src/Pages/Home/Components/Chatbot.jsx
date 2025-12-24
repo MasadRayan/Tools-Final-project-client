@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaRobot } from "react-icons/fa6";
-// import ChatbotModal from './ChatbotModal';
+import ChatbotModal from './ChatbotModal';
 
 const Chatbot = () => {
     const [open, setOpen] = useState(false);
@@ -12,7 +12,7 @@ const Chatbot = () => {
                 <FaRobot size={30} />
 
             </button>
-            {/* <ChatbotModal isOpen={open} onClose={() => setOpen(false)} /> */}
+            <ChatbotModal isOpen={open} onClose={() => setOpen(false)} />
         </>
     );
 };
