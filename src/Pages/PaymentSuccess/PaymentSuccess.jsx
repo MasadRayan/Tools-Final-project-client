@@ -201,7 +201,7 @@ const PaymentSuccess = () => {
         doc.setFontSize(10);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(...successColor);
-        doc.text("✓ PAYMENT SUCCESSFUL", (pageWidth / 2) - 10, yPos + 3, { align: "center" });
+        doc.text("PAYMENT SUCCESSFUL", (pageWidth / 2) , yPos + 3, { align: "center" });
 
         yPos += 25;
 
