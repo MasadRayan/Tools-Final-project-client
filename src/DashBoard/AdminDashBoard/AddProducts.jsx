@@ -141,7 +141,6 @@ const AddProduct = () => {
         return;
       }
 
-      console.log(resData);
       
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));

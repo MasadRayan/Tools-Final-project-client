@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FiStar } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router';
 
 const AllProducts = () => {
     useEffect(() => {
@@ -115,7 +116,9 @@ const AllProducts = () => {
                                         </span>
                                     </td>
                                     <td className="flex gap-2 justify-center">
-                                        <button className="btn btn-sm btn-primary">Edit</button>
+                                        <Link to={`/dashboard/updateProduct/${product._id}`}>
+                                            <button className="btn btn-sm btn-primary">Edit</button>
+                                        </Link>
                                         <button onClick={() => handleProductDelete(product._id)} className="btn btn-sm btn-error">Delete</button>
                                     </td>
                                 </tr>

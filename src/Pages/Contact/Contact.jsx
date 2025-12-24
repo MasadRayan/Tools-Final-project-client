@@ -67,7 +67,6 @@ const Contact = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        console.log(data);
         setIsSubmitting(true);
 
         try {

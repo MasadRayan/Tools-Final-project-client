@@ -30,7 +30,6 @@ const OurProductsSection = () => {
   if (isError) {
     return <div className="text-center text-red-500 font-bold text-5xl">Error loading products</div>;
   }
-  console.log(data);
 
   const fetchedProducts = data || [];
 
