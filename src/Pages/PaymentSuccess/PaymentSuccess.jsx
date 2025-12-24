@@ -33,7 +33,8 @@ const PaymentSuccess = () => {
     const { data, isLoading, refetch, isError } = useQuery({
         queryKey: ['paymentSuccess', trxid],
         queryFn: async () => {
-            const res = await axiosSeecure.get(`/products/transaction/${trxid}`)
+            const res = await axiosSeecure.get(`/products/transaction/${trxid}`);
+            console.log("hitting the route", res);
             return res.data;
         },
         enabled: !!trxid && !!user?.email
@@ -557,9 +558,9 @@ const PaymentSuccess = () => {
                                 </div>
 
                                 <div className="flex items-center justify-center gap-2 pt-2">
-                                    <span className="badge bg-green-500/10 text-green-500 border-green-500/20">
+                                    <span className="badge bg-green-500/10 text-green-500 border-green-500/20 uppercase">
                                         <FiCheckCircle className="w-3 h-3 mr-1" />
-                                        {paymentInfo.paymentStatus}
+                                        {paymentInfo.status}
                                     </span>
                                 </div>
                             </div>
