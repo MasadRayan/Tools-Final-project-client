@@ -3,6 +3,8 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
 import { useQuery } from '@tanstack/react-query';
 import { FiStar } from 'react-icons/fi';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 const AllProducts = () => {
     useEffect(() => {
@@ -27,6 +29,36 @@ const AllProducts = () => {
     }
 
     const totalPages = Math.ceil((data?.total || 0) / (data?.limit || 1));
+
+    const handleProductDelete = async (id) => {
+        try {
+            const result = await Swal.fire({
+                title: "Are you sure?",
+                text: "You are about to delete this product.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#4A70A9',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "Yes, delete it!"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const res = await axiosSecure.delete(`/products/delete/${id}`);
+                    if (res.data.deletedCount > 0) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your product has been deleted.',
+                            'success'
+                        );
+                        refetch();
+                    }
+                } else if (result.isDenied) {
+                    Swal.fire('Error', 'Failed to delete product.', 'error');
+                }
+            })
+        } catch (error) {
+            toast.error("Failed to delete product");
+        }
+    }
 
     return (
         <div className="overflow-x-auto p-4">
@@ -84,7 +116,7 @@ const AllProducts = () => {
                                     </td>
                                     <td className="flex gap-2 justify-center">
                                         <button className="btn btn-sm btn-primary">Edit</button>
-                                        <button className="btn btn-sm btn-error">Delete</button>
+                                        <button onClick={() => handleProductDelete(product._id)} className="btn btn-sm btn-error">Delete</button>
                                     </td>
                                 </tr>
                             ))}
