@@ -8,13 +8,14 @@ import FeaturesSection from './Components/FeaturesSection';
 import { ScrollRestoration } from 'react-router';
 import CategoriesSection from './Components/CategoriesSection';
 import OurProductsSection from './Components/OurProductsSection';
+import Chatbot from './Components/Chatbot';
 
 const HomePage = () => {
     useEffect(() => {
         document.title = 'Home - BuyNest';
     }, [])
     return (
-        <div>
+        <div className='relative'>
             <HeroSection></HeroSection>
             <CategoriesSection></CategoriesSection>
             <OurProductsSection></OurProductsSection>
@@ -24,6 +25,9 @@ const HomePage = () => {
             <FAQ></FAQ>
             <NewsletterSection></NewsletterSection>
             <ScrollRestoration></ScrollRestoration>
+            <div className='z-100 bottom-5 right-10 fixed'>
+                <Chatbot></Chatbot>
+            </div>
         </div>
     );
 };
