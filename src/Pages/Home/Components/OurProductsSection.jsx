@@ -8,7 +8,7 @@ import axios from "axios";
 import useAxios from "../../../Hooks/useAxios";
 import { Link } from "react-router";
 
-const categories = ["All", "Electronics", "Fashion", "Home", "Beauty"];
+const categories = ["All", "Electronics", "Fashion", "Home & Living", "Beauty"];
 
 
 const OurProductsSection = () => {

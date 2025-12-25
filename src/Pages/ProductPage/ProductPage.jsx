@@ -7,6 +7,7 @@ import { Link, ScrollRestoration, useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import useAxios from '../../Hooks/useAxios';
 import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const categories = ['All', 'Electronics', 'Fashion', 'Home & Living', 'Beauty', 'Sports', 'Books'];
 
@@ -348,15 +349,26 @@ const ProductPage = () => {
                                             </div>
 
                                             {/* Price */}
-                                            <div className="flex items-center gap-2 mt-3">
-                                                <span className="text-xl font-bold text-foreground">
-                                                    ${product.discountedPrice.toFixed(2)}
-                                                </span>
-                                                {product.price > product.discountedPrice && (
-                                                    <span className="text-sm text-muted-foreground line-through">
-                                                        ${product.price.toFixed(2)}
+                                            <div className='flex justify-between items-center'>
+                                                <div className="flex items-center gap-2 mt-3">
+                                                    <span className="text-xl font-bold text-foreground">
+                                                        ${product.discountedPrice.toFixed(2)}
                                                     </span>
-                                                )}
+                                                    {product.price > product.discountedPrice && (
+                                                        <span className="text-sm text-muted-foreground line-through">
+                                                            ${product.price.toFixed(2)}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div className='lg:hidden'>
+                                                    {product.quantity && (<>
+                                                        <Link to={`/product/${product._id}`}>
+                                                            <span>
+                                                                <ArrowRight size={24} />
+                                                            </span>
+                                                        </Link>
+                                                    </>)}
+                                                </div>
                                             </div>
                                         </div>
                                     </motion.div>

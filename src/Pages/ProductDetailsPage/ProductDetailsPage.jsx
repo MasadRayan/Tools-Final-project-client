@@ -378,7 +378,7 @@ const ProductDetailsPage = () => {
             <Fade triggerOnce>
               {/* Tab Headers */}
               <div className="flex border-b border-border">
-                {(["description", "specifications", "reviews"]).map((tab) => (
+                {(["description", "specifications"]).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -425,14 +425,6 @@ const ProductDetailsPage = () => {
                           <span className="font-medium text-foreground w-1/2">{spec.value}</span>
                         </div>
                       ))}
-                    </div>
-                  )}
-
-                  {activeTab === "reviews" && (
-                    <div className="text-center py-12">
-                      <p className="text-muted-foreground">
-                        Reviews will be loaded from the backend.
-                      </p>
                     </div>
                   )}
                 </motion.div>

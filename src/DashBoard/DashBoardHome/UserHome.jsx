@@ -56,11 +56,6 @@ const UserHome = () => {
 
     const { totalPayments, totalOrders, recentOrders, recentPayments, deliveredOrders, totalMoneySpent, userInfo } = data;
 
-    console.log({
-        totalPayments, totalOrders, recentOrders, recentPayments, deliveredOrders, totalMoneySpent, userInfo
-    });
-
-
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-US', {
@@ -210,43 +205,43 @@ const UserHome = () => {
                             {recentOrders.map((order, index) => {
                                 const statusConfig = getStatusConfig(order.status);
                                 const StatusIcon = statusConfig.icon;
-                                
-                                    <motion.div
-                                        key={order.id}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.4 + index * 0.1 }}
-                                        className="p-5 hover:bg-slate-50/50 transition-colors group cursor-pointer"
-                                    >
-                                        <div className="flex items-center gap-4">
-                                            <div className="relative">
-                                                <img
-                                                    src={order?.productImage}
-                                                    alt={order?.productName}
-                                                    className="w-16 h-16 rounded-xl object-cover ring-2 ring-slate-100"
-                                                />
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <h3 className="font-semibold text-slate-900 truncate group-hover:text-violet-600 transition-colors">
-                                                    {order?.productName}
-                                                </h3>
-                                                <p className="text-slate-400 text-sm mt-0.5">{order?._id}</p>
-                                                <div className="flex items-center gap-3 mt-2">
-                                                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${statusConfig.color}`}>
-                                                        <StatusIcon className="w-3.5 h-3.5" />
-                                                        {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                                                    </span>
-                                                    <span className="text-slate-400 text-xs flex items-center gap-1">
-                                                        <Calendar className="w-3.5 h-3.5" />
-                                                        {formatDate(order.date)}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="text-right">
-                                                <p className="text-lg font-bold text-slate-900">{formatCurrency(order.totalAmount)}</p>
+
+                                <motion.div
+                                    key={order.id}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.4 + index * 0.1 }}
+                                    className="p-5 hover:bg-slate-50/50 transition-colors group cursor-pointer"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <div className="relative">
+                                            <img
+                                                src={order?.productImage}
+                                                alt={order?.productName}
+                                                className="w-16 h-16 rounded-xl object-cover ring-2 ring-slate-100"
+                                            />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="font-semibold text-slate-900 truncate group-hover:text-violet-600 transition-colors">
+                                                {order?.productName}
+                                            </h3>
+                                            <p className="text-slate-400 text-sm mt-0.5">{order?._id}</p>
+                                            <div className="flex items-center gap-3 mt-2">
+                                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${statusConfig.color}`}>
+                                                    <StatusIcon className="w-3.5 h-3.5" />
+                                                    {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                                                </span>
+                                                <span className="text-slate-400 text-xs flex items-center gap-1">
+                                                    <Calendar className="w-3.5 h-3.5" />
+                                                    {formatDate(order.date)}
+                                                </span>
                                             </div>
                                         </div>
-                                    </motion.div>
+                                        <div className="text-right">
+                                            <p className="text-lg font-bold text-slate-900">{formatCurrency(order.totalAmount)}</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
                             })}
                         </div>
                     </motion.div>
@@ -272,31 +267,30 @@ const UserHome = () => {
                         <div className="p-4 space-y-3">
                             {recentPayments.map((payment, index) => {
                                 const statusConfig = getStatusConfig(payment.status);
-                                return (
-                                    <motion.div
-                                        key={payment.id}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.5 + index * 0.1 }}
-                                        className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100/80 transition-colors cursor-pointer group"
-                                    >
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="font-semibold text-slate-900 group-hover:text-violet-600 transition-colors">
-                                                {formatCurrency(payment.totalAmount)}
-                                            </span>
-                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${statusConfig.color}`}>
-                                                {payment.status}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center justify-between text-sm">
-                                            <span className="text-slate-500">BKash</span>
-                                            <span className="text-slate-400 flex items-center gap-1">
-                                                <Calendar className="w-3.5 h-3.5" />
-                                                {formatDate(payment.date)}
-                                            </span>
-                                        </div>
-                                    </motion.div>
-                                );
+
+                                <motion.div
+                                    key={payment.id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.5 + index * 0.1 }}
+                                    className="p-4 rounded-xl bg-slate-50 hover:bg-slate-100/80 transition-colors cursor-pointer group"
+                                >
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className="font-semibold text-slate-900 group-hover:text-violet-600 transition-colors">
+                                            {formatCurrency(payment.totalAmount)}
+                                        </span>
+                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${statusConfig.color}`}>
+                                            {payment.status}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="text-slate-500">BKash</span>
+                                        <span className="text-slate-400 flex items-center gap-1">
+                                            <Calendar className="w-3.5 h-3.5" />
+                                            {formatDate(payment.date)}
+                                        </span>
+                                    </div>
+                                </motion.div>
                             })}
                         </div>
                         <div className="p-4 border-t border-slate-100">
