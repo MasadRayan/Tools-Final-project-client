@@ -9,6 +9,7 @@ import { ScrollRestoration } from 'react-router';
 import CategoriesSection from './Components/CategoriesSection';
 import OurProductsSection from './Components/OurProductsSection';
 import Chatbot from './Components/Chatbot';
+import ReviewsSection from './Components/ReviewsSection';
 
 const HomePage = () => {
     useEffect(() => {
@@ -22,6 +23,7 @@ const HomePage = () => {
             <FeaturesSection></FeaturesSection>
             <BrandMarquee></BrandMarquee>
             <StatsSection></StatsSection>
+            <ReviewsSection></ReviewsSection>
             <FAQ></FAQ>
             <NewsletterSection></NewsletterSection>
             <div className='z-100 bottom-5 right-10 fixed'>
