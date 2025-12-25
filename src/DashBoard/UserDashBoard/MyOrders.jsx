@@ -5,6 +5,7 @@ import useAuth from '../../Hooks/useAuth';
 import LoadingSpinner from '../../Components/LoadingSpinner/LoadingSpinner';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router';
 
 const MyOrders = () => {
     useEffect(() => {
@@ -137,12 +138,21 @@ const MyOrders = () => {
 
                                         {
                                             order.status === 'delivered' ? (<>
-                                                <button
-                                                    disabled
-                                                    className='btn btn-sm bg-green-500 text-white mt-2 cursor-pointer'
-                                                >
-                                                    Delivered
-                                                </button>
+                                                <div className='flex justify-center items-center gap-2'>
+                                                    <button
+                                                        disabled
+                                                        className='btn btn-sm bg-green-500 text-white mt-2 cursor-pointer'
+                                                    >
+                                                        Delivered
+                                                    </button>
+                                                    <Link to={`/dashboard/review/${order._id}`}>
+                                                        <button
+                                                            className='btn btn-sm bg-orange-500 text-white mt-2 cursor-pointer'
+                                                        >
+                                                            Review
+                                                        </button>
+                                                    </Link>
+                                                </div>
                                             </>) : (<>
                                                 <button
                                                     onClick={() => { handleOrderDelete(order._id) }}

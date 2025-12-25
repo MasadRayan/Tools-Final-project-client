@@ -9,7 +9,7 @@ import "swiper/css/effect-coverflow";
 
 const reviews = [
   {
-    id: 1,
+    __id: 1,
     name: "Sarah Johnson",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
     role: "user",
@@ -18,7 +18,7 @@ const reviews = [
       "Absolutely love shopping at BuyNest! The quality of products is exceptional, and the delivery is always on time. Customer service is top-notch!",
   },
   {
-    id: 2,
+    _id: 2,
     name: "Michael Chen",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
     role: "user",
@@ -27,7 +27,7 @@ const reviews = [
       "Best online shopping experience I've ever had. The product recommendations are spot-on, and the prices are unbeatable. Highly recommended!",
   },
   {
-    id: 3,
+    _id: 3,
     name: "Emily Davis",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
     role: "user",
@@ -36,7 +36,7 @@ const reviews = [
       "The attention to detail in packaging and product quality is amazing. Returns are hassle-free, which gives me confidence to try new products.",
   },
   {
-    id: 4,
+    _id: 4,
     name: "David Wilson",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80",
     role: "user",
@@ -45,7 +45,7 @@ const reviews = [
       "Great selection of products at competitive prices. The loyalty program rewards are fantastic. Will definitely continue shopping here!",
   },
   {
-    id: 5,
+    _id: 5,
     name: "Jessica Martinez",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80",
     role: "user",
@@ -140,7 +140,7 @@ const ReviewsSection = () => {
                 slideShadows: false,
               }}
               pagination={{ clickable: true }}
-              autoplay={{ delay: 4000, disableOnInteraction: false }}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
               spaceBetween={20}
               slidesPerView={1.2}
               breakpoints={{
@@ -151,7 +151,7 @@ const ReviewsSection = () => {
               className="pb-16"
             >
               {reviews.map((review) => (
-                <SwiperSlide key={review.id}>
+                <SwiperSlide key={review._id}>
                   {({ isActive }) => (
                     <motion.div
                       animate={{
