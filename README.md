@@ -1,16 +1,109 @@
-# React + Vite
+# 🌐 Smart E-Commerce & Service Management Platform 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔗 **Live Website:** https://tools-final-projectt.web.app/ 
+📦 **Server Repo:** https://github.com/MasadRayan/Tools-Final-project-server 
+💻 **Client Repo:** https://github.com/MasadRayan/Tools-Final-project-client  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧾 Project Overview
+A full-stack **MERN-based Smart E-Commerce & Service Management Platform** with role-based dashboards, secure authentication, product & service ordering, reviews, payments, and a modern animated UI.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Key Features
 
-## Expanding the ESLint configuration
+### 👤 Authentication & Authorization
+- 🔐 Firebase Authentication (Email/Password)
+- 🌐 Social Login (Google, GitHub)
+- 🛡️ JWT-based route protection
+- 👥 Role-based access (Admin / User)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🛒 E-Commerce & Services
+- 📦 Browse products & services
+- 🛍️ Add to cart & place orders
+- 💳 Secure payment integration
+- 🧾 Downloadable payment receipts (PDF)
+- ⏱️ 24-hour order validation logic
+
+### ⭐ Reviews & Ratings
+- ✍️ Users can submit reviews
+- 🎞️ Animated review slider (Swiper + Coverflow)
+- ⭐ Star-based rating system
+
+### 📊 Dashboards
+- 📈 Admin dashboard (manage users, products, services)
+- 👤 User dashboard (orders, reviews, profile)
+- 📉 Charts & analytics (Recharts)
+
+### 🎨 UI / UX
+- 📱 Fully responsive (Mobile-first)
+- 🎬 Animations with Framer Motion & Awesome Reveal
+- 🧭 Interactive maps (Leaflet)
+- 🎠 Sliders (Swiper.js)
+- 🔔 Toast notifications
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend ⚛️
+- React
+- React Router DOM
+- Tailwind CSS
+- DaisyUI
+- React Icons
+- Swiper.js
+- Framer Motion
+- React Hook Form
+- Axios
+- Recharts
+- LottieFiles
+- React Hot Toast
+- Leaflet
+
+### Backend 🧩
+- Node.js
+- Express.js
+- MongoDB
+- JWT
+- Gemini Api
+- Firebase Admin SDK
+
+---
+
+## 📂 Project Structure
+
+```bash
+client/
+ ├── src/
+ │   ├── components/
+ │   ├── pages/
+ │   ├── layouts/
+ │   ├── hooks/
+ │   ├── routes/
+ │   └── main.jsx
+ └── package.json
+
+server/
+ ├── src/
+ │   ├── controllers/
+ │   ├── routes/
+ │   ├── middleware/
+ │   ├── utils/
+ │   └── server.js
+ └── package.json
+
+
+# Clone repository
+git clone https://github.com/MasadRayan/Tools-Final-project-client
+
+# Client setup
+cd client
+npm install
+npm run dev
+
+# Server setup
+cd server
+npm install
+nodemon src/server.js
