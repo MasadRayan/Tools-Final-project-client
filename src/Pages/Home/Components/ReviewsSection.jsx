@@ -24,7 +24,6 @@ const ReviewsSection = () => {
         },
     });
 
-    console.log(reviews);
     if (isLoading) return <LoadingSpinner />;
 
     if (isError) {
