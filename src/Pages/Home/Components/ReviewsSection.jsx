@@ -144,7 +144,7 @@ const ReviewsSection = () => {
               spaceBetween={20}
               slidesPerView={1.2}
               breakpoints={{
-                640: { slidesPerView: 1.5 },
+                640: { slidesPerView: 1 },
                 768: { slidesPerView: 2 },
                 1024: { slidesPerView: 2 },
               }}
