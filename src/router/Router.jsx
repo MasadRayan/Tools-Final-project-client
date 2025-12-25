@@ -22,6 +22,7 @@ import MyOrders from "../DashBoard/UserDashBoard/MyOrders";
 import PaymentHistory from "../DashBoard/UserDashBoard/PaymentHistory";
 import AllPayments from "../DashBoard/AdminDashBoard/AllPayments";
 import EditProduct from "../DashBoard/AdminDashBoard/EditProduct";
+import ReviewPage from "../DashBoard/UserDashBoard/ReviewPage";
 
 export const router = createBrowserRouter([
     {
@@ -130,6 +131,12 @@ export const router = createBrowserRouter([
                 path: 'paymentHistory',
                 element: <UserRoute>
                     <PaymentHistory></PaymentHistory>
+                </UserRoute>
+            },
+            {
+                path: "review/:id",
+                element: <UserRoute>
+                    <ReviewPage></ReviewPage>
                 </UserRoute>
             }
         ]
