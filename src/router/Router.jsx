@@ -23,6 +23,7 @@ import PaymentHistory from "../DashBoard/UserDashBoard/PaymentHistory";
 import AllPayments from "../DashBoard/AdminDashBoard/AllPayments";
 import EditProduct from "../DashBoard/AdminDashBoard/EditProduct";
 import ReviewPage from "../DashBoard/UserDashBoard/ReviewPage";
+import Error from "../Pages/Error/Error";
 
 export const router = createBrowserRouter([
     {
@@ -64,6 +65,10 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <PaymentSuccess></PaymentSuccess>
                 </PrivateRoute>
+            },
+            {
+                path: '*',
+                element: <Error></Error>
             }
         ]
     },
@@ -142,8 +147,4 @@ export const router = createBrowserRouter([
         ]
 
     },
-    {
-        path: '*',
-        Component: RootLayout
-    }
 ])

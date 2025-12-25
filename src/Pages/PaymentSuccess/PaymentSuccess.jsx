@@ -82,6 +82,7 @@ const PaymentSuccess = () => {
     }
 
     const { paymentInfo, productInfo, updateProductQuantity } = data;
+    // console.log(paymentInfo, productInfo, updateProductQuantity);
 
     const formatDate = (dateString) =>
         new Date(dateString).toLocaleString('en-US', {
