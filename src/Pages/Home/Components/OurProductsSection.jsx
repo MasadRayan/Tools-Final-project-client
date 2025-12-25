@@ -105,9 +105,9 @@ const OurProductsSection = () => {
                   {/* Hover Actions */}
                   <div className="absolute inset-0 bg-secondary/40 opacity-0 hover:opacity-100 transition-all flex items-center justify-center gap-3">
                     {[FiShoppingCart, FiEye].map((Icon, i) => (
-                      <Link to={`/product/${product._id}`}  key={i}>
+                      <Link to={`/product/${product._id}`} key={i}>
                         <motion.button
-                         
+
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           className="w-12 h-12 rounded-full bg-base-100 flex items-center justify-center text-secondary hover:bg-primary hover:text-base-100 transition-colors"
@@ -152,9 +152,11 @@ const OurProductsSection = () => {
         {/* Load More */}
         <Fade direction="up" delay={300} triggerOnce>
           <div className="text-center mt-12">
-            <button className="bg-primary text-base-100 px-8 py-4 rounded-full font-medium hover:bg-secondary transition-colors">
-              View All Products
-            </button>
+            <Link to={'/products'}>
+              <button className="bg-primary text-base-100 px-8 py-4 rounded-full font-medium hover:bg-secondary transition-colors">
+                View All Products
+              </button>
+            </Link>
           </div>
         </Fade>
       </div>

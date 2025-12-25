@@ -24,10 +24,10 @@ const HomePage = () => {
             <StatsSection></StatsSection>
             <FAQ></FAQ>
             <NewsletterSection></NewsletterSection>
-            <ScrollRestoration></ScrollRestoration>
             <div className='z-100 bottom-5 right-10 fixed'>
                 <Chatbot></Chatbot>
             </div>
+            <ScrollRestoration></ScrollRestoration>
         </div>
     );
 };
