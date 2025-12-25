@@ -57,7 +57,7 @@ const DashBoardLayout = () => {
                 <Outlet />
             </div>
 
-            <div className="drawer-side">
+            <div className="drawer-side z-100">
                 <label htmlFor="dashboard-drawer" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 shadow-lg rounded-r-2xl space-y-2">
 
